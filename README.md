@@ -15,8 +15,12 @@ An AI-powered web application to expediate job searching by using machine learni
 - **Framework:** React 18+ with TypeScript
 - **Build Tool:** Vite
 
+# Backend 
+ - **Unit/Integration testing** Pytest
+ - **Orchestration** LangGraph/LangChain
+
 ### Web Scraping
-- **Tools:** Puppeteer/Playwright
+- **Tools:** Selenium
 - **Sources:** LinkedIn, Indeed, GitHub Jobs, custom scrapers etc
 
 ### DevOps & Deployment
