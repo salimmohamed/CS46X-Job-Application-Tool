@@ -20,6 +20,14 @@ class EncryptionService:
         return self.key
 
     def encrypt_profile(self, profile_data):
+        """Encrypts profile data using AES-256-GCM.
+
+        Args:
+            profile_data (dict): Profile data to encrypt.
+
+        Returns:
+            dict: Dictionary containing 'ciphertext' and 'nonce' as base64-encoded strings.
+        """
         json_str = json.dumps(profile_data)
         plaintext = json_str.encode('utf-8')
         nonce = os.urandom(12)
