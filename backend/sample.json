@@ -1,0 +1,84 @@
+{
+  "applicant_info": {
+    "first_name": "Alex",
+    "last_name": "Johnson",
+    "email": "alex.johnson@example.com",
+    "phone": "+1-415-555-2478",
+    "address": "1234 Market Street, Apt 7B",
+    "city": "San Francisco",
+    "state": "CA",
+    "zip_code": "94103",
+    "country": "USA",
+    "resume_path": "/uploads/resumes/alex_johnson_resume.pdf",
+    "cover_letter_path": "/uploads/cover_letters/alex_johnson_cover_letter.pdf",
+    "linkedin_url": "https://www.linkedin.com/in/alexjohnson",
+    "portfolio_url": "https://alexjohnson.dev",
+    "years_of_experience": "5",
+    "education_level": "Bachelor's Degree in Computer Science",
+    "college_name": "University of California, Berkeley",
+    "salary_expectation": "95000",
+    "work_experience": {
+      "job_1": {
+        "company_name": "TechNova Solutions",
+        "position": "Machine Learning Engineer",
+        "start_month": "March",
+        "start_year": "2022",
+        "end_month": "October",
+        "end_year": "2024",
+        "description": "Developed and deployed predictive models for client analytics using Python, TensorFlow, and AWS SageMaker."
+      },
+      "job_2": {
+        "company_name": "DataEdge Analytics",
+        "position": "Data Scientist",
+        "start_month": "May",
+        "start_year": "2019",
+        "end_month": "February",
+        "end_year": "2022",
+        "description": "Built ETL pipelines and performed data mining on large datasets using Pandas, SQL, and Scikit-learn."
+      },
+      "job_3": {
+        "company_name": "BrightApps Inc.",
+        "position": "Software Developer Intern",
+        "start_month": "June",
+        "start_year": "2018",
+        "end_month": "August",
+        "end_year": "2018",
+        "description": "Assisted in developing full-stack web features using React, Flask, and PostgreSQL."
+      }
+    },
+    "technical_experience": {
+      "skill_1": {
+        "skill_name": "Python"
+      },
+      "skill_2": {
+        "skill_name": "Machine Learning"
+      },
+      "skill_3": {
+        "skill_name": "Natural Language Processing (NLP)"
+      },
+      "skill_4": {
+        "skill_name": "SQL"
+      },
+      "skill_5": {
+        "skill_name": "React.js"
+      }
+    },
+    "education": {
+      "start_month": "August",
+      "start_year": "2015",
+      "end_month": "May",
+      "end_year": "2019"
+    },
+    "willing_to_relocate": "Yes",
+    "availability_date": "2025-01-15",
+    "work_authorization": "U.S. Citizen",
+    "gender": "Non-binary",
+    "race_ethnicity": "Hispanic or Latino",
+    "race": "White",
+    "ethnicity": "Hispanic",
+    "veteran_status": "Not a Veteran",
+    "disability_status": "No Disability",
+    "requires_visa_sponsorship": "No"
+  }
+}
+
