@@ -199,8 +199,6 @@ async def parse_resume_endpoint(request: ResumeRequest):
         retry_count += 1
         if retry_count >= max_retries:
             raise HTTPException(status_code=422, detail=f"Validation failed after {max_retries} tries: {reason}")
-    
-    raise HTTPException(status_code=500, detail="Unexpected error")
 
 
 @app.get("/")
