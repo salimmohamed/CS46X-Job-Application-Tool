@@ -1,0 +1,21 @@
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info
+dist
+build
+.env
+.venv
+venv/
+*.log
+parsed_resume_output.json
+test_*.py
+demo_resume.txt
+Gareth's résumé.txt
+.git
+.gitignore
+

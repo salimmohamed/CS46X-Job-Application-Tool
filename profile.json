@@ -1,0 +1,84 @@
+{
+  "applicant_info": {
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "phone": "",
+    "address": "",
+    "city": "",
+    "state": "",
+    "zip_code": "",
+    "country": "",
+    "resume_path": "",
+    "cover_letter_path": "",
+    "linkedin_url": "",
+    "portfolio_url": "",
+    "years_of_experience": "",
+    "education_level": "",
+    "college_name": "",
+    "salary_expectation": "",
+    "work_experience": {
+      "job_1": {
+        "company_name": "",
+        "position": "",
+        "start_month": "",
+        "start_year": "",
+        "end_month": "",
+        "end_year": "",
+        "description": ""
+      },
+      "job_2": {
+        "company_name": "",
+        "position": "",
+        "start_month": "",
+        "start_year": "",
+        "end_month": "",
+        "end_year": "",
+        "description": ""
+      },
+      "job_3": {
+        "company_name": "",
+        "position": "",
+        "start_month": "",
+        "start_year": "",
+        "end_month": "",
+        "end_year": "",
+        "description": ""
+      }
+    },
+    "technical_experience": {
+      "skill_1": {
+        "skill_name": ""
+      },
+      "skill_2": {
+        "skill_name": ""
+      },
+      "skill_3": {
+        "skill_name": ""
+      },
+      "skill_4": {
+        "skill_name": ""
+      },
+      "skill_5": {
+        "skill_name": ""
+      }
+    },
+    "education": {
+      "start_month": "",
+      "start_year": "",
+      "end_month": "",
+      "end_year": ""
+    },
+    "willing_to_relocate": "",
+    "availability_date": "",
+    "work_authorization": "",
+    "gender": "",
+    "race_ethnicity": "",
+    "race": "",
+    "ethnicity": "",
+    "veteran_status": "",
+    "disability_status": "",
+    "requires_visa_sponsorship": ""
+  }
+}
+
