@@ -9,8 +9,8 @@ from pathlib import Path
 from encryption_service import EncryptionService, encrypt_profile_simple, decrypt_profile_simple
 
 
-# Load sample profile data from sample.json
-SAMPLE_JSON_PATH = Path(__file__).parent / "sample.json"
+# Load sample profile data from fixtures/sample.json
+SAMPLE_JSON_PATH = Path(__file__).parent / "fixtures" / "sample.json"
 with open(SAMPLE_JSON_PATH, 'r') as f:
     SAMPLE_PROFILE = json.load(f)
 

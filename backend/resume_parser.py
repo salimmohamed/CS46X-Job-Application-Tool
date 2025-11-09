@@ -10,7 +10,7 @@ Input:
 Output:
     - Standardized JSON schema matching profile.json structure
 
-Run: uvicorn resume_parser_microservice:app --reload
+Run: uvicorn resume_parser:app --reload
 
 Send POST requests to /parse endpoint with JSON body:
        {
@@ -29,6 +29,7 @@ import json
 import os
 from typing import Dict, Any, Tuple, Optional
 from datetime import datetime
+from pathlib import Path
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from openai import OpenAI
@@ -47,7 +48,9 @@ if not default_endpoint:
 client = OpenAI(api_key=api_key)
 model = "gpt-3.5-turbo"
 
-with open("profile.json", "r") as f:
+# new path to profile.json
+BACKEND_DIR = Path(__file__).parent
+with open(BACKEND_DIR / "profile.json", "r") as f:
     schema = json.load(f)
 
 
