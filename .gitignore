@@ -31,4 +31,6 @@ parsed_resume_output.json
 .DS_Store
 .vscode/
 .idea/
+backend/examples/encrypted_profile.json
+backend/examples/encryption.key
 
