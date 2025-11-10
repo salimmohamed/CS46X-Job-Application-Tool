@@ -1,3 +1,4 @@
+# Python cache and compiled files
 __pycache__
 *.pyc
 *.pyo
@@ -8,14 +9,40 @@ __pycache__
 *.egg-info
 dist
 build
+
+# Environment and virtual environments
 .env
 .venv
 venv/
+backend/venv/
+ENV/
+env/
+
+# Logs and output files
 *.log
 parsed_resume_output.json
+
+# Development and test files
 test_*.py
 demo_resume.txt
 Gareth's résumé.txt
+
+# Version control
 .git
 .gitignore
+
+# Frontend (not needed in backend container)
+frontend/
+
+# Reference documentation (not needed in production)
+Reference/
+
+# Test files and examples (excluded from production image)
+backend/tests/
+backend/examples/
+
+# IDE and editor files
+.vscode/
+.idea/
+.DS_Store
 

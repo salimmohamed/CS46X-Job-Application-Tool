@@ -2,13 +2,17 @@ version: '3.8'
 
 services:
   resume-parser:
-    build: .
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     ports:
       - "8000:8000"
+    env_file:
+      - ./backend/.env
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - DEFAULT_ENDPOINT=${DEFAULT_ENDPOINT:-http://encryption-service:8001/encrypt}
     volumes:
-      - ./profile.json:/app/profile.json
+      - ./backend/profile.json:/app/profile.json
     restart: unless-stopped
 
