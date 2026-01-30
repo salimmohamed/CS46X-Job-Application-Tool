@@ -1,0 +1,29 @@
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: #1a1a1a;
+  border-bottom: 1px solid #333;
+}
+
+.popup-header-left {
+  flex: 1;
+}
+
+.popup-header-settings {
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: transparent;
+  border: 1px solid #333;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.popup-header-settings:hover {
+  border-color: #646cff;
+  background-color: rgba(100, 108, 255, 0.1);
+}

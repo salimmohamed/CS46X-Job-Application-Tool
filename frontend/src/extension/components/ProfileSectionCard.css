@@ -1,0 +1,88 @@
+.profile-section-card {
+  background: #1a1a1a;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  border: 1px solid #333;
+  overflow: hidden;
+}
+
+.profile-section-card.incomplete {
+  border-left: 3px solid #f59e0b;
+}
+
+.profile-section-card.complete {
+  border-left: 3px solid #10b981;
+}
+
+.profile-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: rgba(255, 255, 255, 0.87);
+}
+
+.profile-section-header:hover {
+  background-color: #2a2a2a;
+}
+
+.profile-section-info {
+  display: flex;
+  align-items: center;
+}
+
+.profile-section-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.87);
+}
+
+.profile-section-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile-section-progress {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.profile-section-progress-bar {
+  width: 40px;
+  height: 4px;
+  background-color: #333;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.profile-section-progress-fill {
+  height: 100%;
+  background-color: #10b981;
+  transition: width 0.3s ease;
+}
+
+.profile-section-card.incomplete .profile-section-progress-fill {
+  background-color: #f59e0b;
+}
+
+.profile-section-chevron {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.5);
+  transition: transform 0.2s;
+}
+
+.profile-section-chevron.expanded {
+  transform: rotate(180deg);
+}
+
+.profile-section-content {
+  padding: 12px;
+  border-top: 1px solid #333;
+  background-color: #242424;
+}

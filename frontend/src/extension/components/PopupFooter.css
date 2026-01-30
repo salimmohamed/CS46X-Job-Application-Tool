@@ -1,0 +1,30 @@
+.popup-footer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 8px 0;
+  background-color: #1a1a1a;
+  border-top: 1px solid #333;
+}
+
+.popup-footer-tab {
+  padding: 10px 24px;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
+  background: none;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.popup-footer-tab:hover {
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #2a2a2a;
+}
+
+.popup-footer-tab.active {
+  color: #646cff;
+  background-color: rgba(100, 108, 255, 0.1);
+}
