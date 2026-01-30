@@ -1,0 +1,201 @@
+.candidate-form {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.form-header h1 {
+  color: #1a1a2e;
+  margin-bottom: 0.5rem;
+}
+
+.form-description {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.unknown-indicator {
+  background-color: #fff3cd;
+  padding: 0.1rem 0.4rem;
+  border-radius: 3px;
+  border: 1px solid #ffc107;
+}
+
+.form-section {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.form-section h2 {
+  color: #1a1a2e;
+  font-size: 1.25rem;
+  margin: 0 0 1rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #4361ee;
+}
+
+.form-section h3 {
+  color: #444;
+  font-size: 1rem;
+  margin: 1.5rem 0 1rem 0;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.form-section h3:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.section-description {
+  color: #666;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 600px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 0.35rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #4361ee;
+  box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Unknown field highlighting */
+.form-group.unknown {
+  background-color: #fff3cd;
+  padding: 0.75rem;
+  margin: -0.25rem;
+  border-radius: 6px;
+  border: 1px dashed #ffc107;
+}
+
+.form-group.unknown label {
+  color: #856404;
+}
+
+.form-group.unknown input,
+.form-group.unknown select,
+.form-group.unknown textarea {
+  border-color: #ffc107;
+  background-color: #fff;
+}
+
+.form-group.unknown input:focus,
+.form-group.unknown select:focus,
+.form-group.unknown textarea:focus {
+  border-color: #4361ee;
+  box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+}
+
+/* Job entry styling */
+.job-entry {
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+.job-entry:last-child {
+  margin-bottom: 0;
+}
+
+/* Skills grid */
+.skills-grid {
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+
+/* Form actions */
+.form-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.submit-button {
+  background-color: #4361ee;
+  color: white;
+  border: none;
+  padding: 0.875rem 2.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.submit-button:hover {
+  background-color: #3651d4;
+}
+
+.submit-button:active {
+  transform: scale(0.98);
+}
+
+/* Animation for unknown fields */
+@keyframes pulse-highlight {
+  0%, 100% {
+    background-color: #fff3cd;
+  }
+  50% {
+    background-color: #ffe69c;
+  }
+}
+
+.form-group.unknown {
+  animation: pulse-highlight 2s ease-in-out 3;
+}
