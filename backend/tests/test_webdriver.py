@@ -11,10 +11,6 @@ from heuristic_matcher import HeuristicMatcher # import heuristic class
 
 # Credit to Gemini for assistance with writing
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
 class FormInteractionEngine:
     def __init__(self, driver_path=None):
         self.driver = webdriver.Chrome()
