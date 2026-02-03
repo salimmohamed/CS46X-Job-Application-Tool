@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import CandidateDetailsForm from './components/CandidateDetailsForm';
 import { ProfileData, createEmptyProfile } from './types/profile';
 import { saveProfile } from './services/resumeAPI';
@@ -6,7 +6,6 @@ import { useState } from 'react';
 
 function CandidateDetailsPage() {
   const location = useLocation();
-  const navigate = useNavigate();
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);

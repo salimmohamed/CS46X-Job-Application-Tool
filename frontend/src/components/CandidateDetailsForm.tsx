@@ -70,7 +70,7 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
       const newData = JSON.parse(JSON.stringify(prev)) as ProfileData;
       const parts = path.split('.');
 
-      let current: Record<string, unknown> = newData.applicant_info;
+      let current: Record<string, unknown> = newData.applicant_info as unknown as Record<string, unknown>;
       for (let i = 0; i < parts.length - 1; i++) {
         current = current[parts[i]] as Record<string, unknown>;
       }
