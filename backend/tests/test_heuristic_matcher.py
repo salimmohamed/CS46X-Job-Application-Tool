@@ -3,7 +3,7 @@ import difflib
 #Credit: Gemini assisted in code creation
 
 class HeuristicMatcher:
-    def __init__(self):  
+    def __init__(self):
         # keys backend uses
         self.standard_fields = {
             "first_name": ["first name", "given name", "fname", "first", "firstname"],
@@ -17,8 +17,15 @@ class HeuristicMatcher:
         """
         Determines which profile field matches the found web elements
         """
+
+        label = element_metadata.get('label_text') or ""
+        placeholder = element_metadata.get('placeholder') or ""
+        name = element_metadata.get('name') or ""
+        aria = element_metadata.get('aria_label') or ""
+
         # Combine all searchable texts from the element to make sure all labels are gathered
-        search_blob = f"{element_metadata['label_text']} {element_metadata['placeholder']} {element_metadata['name']}".lower()
+        # weighted search blob
+        search_blob = f"{label} {aria} {placeholder} {name}".lower()
 
         best_field = None
         highest_score = 0.0
