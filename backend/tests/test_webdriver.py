@@ -1,160 +1,132 @@
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import Select
+# Live autofill: JOB_URL -> open page, analyze, fill. No template server.
 import json
 import os
+import sys
 import time
-import encryption_service
-import base64
-from test_heuristic_matcher import HeuristicMatcher # import heuristic class
+from pathlib import Path
 
-# Credit to Gemini for assistance with writing
+_backend = Path(__file__).resolve().parent.parent
+_root = _backend.parent
+if str(_root) not in sys.path:
+    sys.path.insert(0, str(_root))
+if str(_backend) not in sys.path:
+    sys.path.insert(0, str(_backend))
+os.chdir(_root)
 
-class FormInteractionEngine:
-    def __init__(self, driver_path=None):
-        self.driver = webdriver.Chrome()
-        self.matcher = HeuristicMatcher()
-        self.found_elements = []
+try:
+    from dotenv import load_dotenv
+    for p in (_backend / ".env", _root / ".env"):
+        if p.exists():
+            load_dotenv(p)
+            break
+except ImportError:
+    pass
 
-    def getDecryptedData(self, encrypted_data):
-        # decrypt the file so the values in users file can be correctly placed into form based on heuristic service
-        try:
-            BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-            key_path = os.path.join(BASE_DIR, 'encryption.key')
-            decrypted_profile = encryption_service.decrypt_profile_simple(encrypted_data, key_path)
-            return decrypted_profile
-        except Exception as e:
-            print(f"Failed to decrypt profile: {e}")
-            return
-
-    def load_test_page(self, url: str):
-        """Navigates to local server e.g., http://127.0.0.1:8001 """
-        self.driver.get(url)
-
-    def get_fields(self):
-        """TO BE REPLACED WITH GARETHS PROGRAM"""
-
-        try:
-            tags = ["input", "select", "textarea", "button"]
-
-            # for each tag, find all the elements in the page for that tag and extract each elements data
-            for tag in tags:
-                elements = self.driver.find_elements(By.TAG_NAME, tag)
-                for el in elements:
-                    field_id = el.get_attribute("id")
-                    field_name = el.get_attribute("name")
-                    identifier = field_id or field_name or f"{tag}_{elements.index(el)}" # in case is unknown
-                    metadata = {
-                        "tag": tag,
-                        "type": el.get_attribute("type") or "text",
-                        "id": identifier,
-                        "name": el.get_attribute("name"),
-                        "placeholder": el.get_attribute("placeholder"),
-                        "label_text": self._find_label(el),
-                        "aria_label": el.get_attribute("aria-label")
-                    }
-
-                    if tag == "select":
-                        # Scrape all the text from the option tags
-                        select_obj = Select(el)
-                        # skip the "please select an option" placeholder
-                        options = [o.text for o in select_obj.options if "select" not in o.text.lower()]
-                        metadata["options"] = options
-
-                    # add metadata
-                    self.found_elements.append(metadata)
-
-            return self.found_elements
-        except Exception as e:
-            return False
-
-    def _find_label(self, element):
-        """Finds the label of an element"""
-        element_id = element.get_attribute("id")
-        if element_id:
-            try:
-                label = self.driver.find_element(By.XPATH, f"//label[@for='{element_id}']")
-                return label.text
-            except:
-                pass
-
-        # Check for aria-label
-        aria_label = element.get_attribute("aria-label")
-        if aria_label: return aria_label
-
-        # fallback to check parent element text
-        try:
-            return element.find_element(By.XPATH, "..").text.split("\n")[0]
-        except: return ""
-
-    def fill_form_from_profile(self, profile_data):
-
-        results = []
-        for element_metadata in self.found_elements:
-            # fill the data on form where heuristic matcher says it should go
-            backend_key = self.matcher.get_best_match(element_metadata)
-
-            # get the user data that matches the key determined by heuristics matcher
-            value_to_input = profile_data.get(backend_key)
-
-            if value_to_input:
-                try:
-                    wait = WebDriverWait(self.driver, 10)
-                    target = wait.until(EC.element_to_be_clickable((By.ID, element_metadata['id'])))
-                    # Handle Dropdowns vs Text Inputs
-                    if target.tag_name == "select":
-                        Select(target).select_by_visible_text(str(value_to_input))
-                    else:
-                        target.clear()
-                        target.send_keys(str(value_to_input))
-
-                    results.append({"field": backend_key, "status": "SUCCESS"})
-                except Exception as e:
-                    results.append({"field": backend_key, "status": "FAILED", "error": str(e)})
-
-        return results
-
-
-    def save_logs(self, results, filename="interaction_log.json"):
-        with open(filename, 'w') as f:
-            json.dump(results, f, indent=2)
-        print(f"Logs from webdriver saved to: {filename}")
+from llm_mapping_service import FormInteractionEngine
+from page_analysis_service import analyze_page_structure
+from compare_analysis_to_html import compare_and_report
 
 
 def main():
-    engine = FormInteractionEngine()
-    template_id = "mackay_sposito"
-    base_url = f"http://127.0.0.1:8001/apply/{template_id}"
-    encrypted_profile = ''
+    job_url = os.environ.get("JOB_URL")
+    if not job_url:
+        print("Set JOB_URL to the live job page.")
+        return
 
+    encrypted_path = os.environ.get("ENCRYPTED_PROFILE")
+    if not encrypted_path:
+        for p in ("backend/encrypted_profile.json", "encrypted_profile.json"):
+            if os.path.exists(p):
+                encrypted_path = p
+                break
+
+    engine = FormInteractionEngine(headless=False)
     try:
-        # open the encrypted user file
-        with open(encrypted_profile, 'r') as f:
-            encrypted_data = json.load(f)
-
-        # decrypt the file
-        decrypted_user_data = engine.getDecryptedData(encrypted_data)
-        if not decrypted_user_data:
-            print("ERROR: Could not decrypt data.\n")
-            return
-
-        print(f"Testing Template: {template_id} at {base_url}\n")
-
-        # Load the page via the server URL
-        print(f"Connecting to: {base_url}")
-        engine.driver.get(base_url)
-        # clear the old elements before scanning the new page
-        engine.found_elements = []
-        # use the webdriver to get the fields that need to be filled
-        engine.get_fields()
-        # put that decrypted user data into the fields based on the matching field the heuristic matcher found
-        page_results = engine.fill_form_from_profile(decrypted_user_data)
-
-        engine.save_logs({template_id: page_results}, "full_test_logs.json")
+        print(f"Opening live page: {job_url}")
+        engine.driver.get(job_url)
         time.sleep(2)
+        try:
+            from selenium.webdriver.common.by import By
+            from selenium.webdriver.support.ui import WebDriverWait
+            from selenium.webdriver.support import expected_conditions as EC
+            for text in ("Apply Now", "Apply", "Begin Application"):
+                els = engine.driver.find_elements(By.XPATH, f"//*[contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'), '{text.lower()}')]")
+                for el in els[:5]:
+                    try:
+                        if el.is_displayed() and el.is_enabled():
+                            el.click()
+                            time.sleep(2.5)
+                            break
+                    except Exception:
+                        continue
+                else:
+                    continue
+                break
+        except Exception:
+            pass
+        try:
+            wait = WebDriverWait(engine.driver, 10)
+            wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "form, input[type='text'], input[name]")))
+        except Exception:
+            pass
+        time.sleep(1)
+        html = engine.driver.page_source
+        url = engine.driver.current_url
 
+        print("Analyzing...", "(API key set)" if os.environ.get("OPENAI_API_KEY") else "(no key)")
+        debug_snapshot = {}
+        page_structure = analyze_page_structure(html, url, debug_snapshot=debug_snapshot)
+        html_sent = debug_snapshot.get("html_sent") or ""
+
+        if os.environ.get("SAVE_ANALYSIS_DEBUG"):
+            html_path = _backend / "debug_html_snapshot.html"
+            result_path = _backend / "debug_analysis_result.json"
+            with open(html_path, "w", encoding="utf-8") as f:
+                f.write(html_sent)
+            with open(result_path, "w", encoding="utf-8") as f:
+                json.dump(page_structure, f, indent=2)
+            compare_and_report(html_sent, page_structure)
+
+        forms = page_structure.get("forms") or []
+        buttons = page_structure.get("buttons") or []
+        n_forms = len(forms)
+        n_buttons = len(buttons)
+        print(f"Found {n_forms} form(s), {n_buttons} button(s)")
+        total_fields = 0
+        for i, form in enumerate(forms):
+            cat = form.get("category") or "other"
+            fields = form.get("fields") or []
+            total_fields += len(fields)
+            print(f"\n--- Form {i + 1} (category={cat}) ---")
+            for j, f in enumerate(fields):
+                name = f.get("name") or f.get("label") or "(no name)"
+                typ = f.get("type") or "text"
+                sel = (f.get("selector") or "")[:70]
+                req = " required" if f.get("required") else ""
+                print(f"  {j + 1}. {name} [{typ}]{req}  selector: {sel}")
+        if buttons:
+            print("\n--- Buttons ---")
+            for b in buttons:
+                print(f"  \"{b.get('text')}\"  action={b.get('action')}  selector: {(b.get('selector') or '')[:60]}")
+        print(f"\nTotal fields across forms: {total_fields}")
+
+        if encrypted_path and os.path.exists(encrypted_path):
+            with open(encrypted_path) as f:
+                decrypted = engine.getDecryptedData(json.load(f))
+            if decrypted:
+                profile = decrypted.get("applicant_info") or decrypted
+                results = engine.fill_form_from_profile(
+                    profile, page_structure=page_structure
+                )
+                n_ok = len([r for r in results if r.get("status") == "SUCCESS"])
+                print(f"Filled {n_ok} field(s)")
+                engine.save_logs({"results": results}, "full_test_logs.json")
+            else:
+                print("Decrypt failed; no fill")
+        else:
+            engine.set_page_structure(page_structure)
+            print(f"Fields: {len(engine.found_elements)} (no profile)")
+        time.sleep(2)
     finally:
         engine.driver.quit()
 

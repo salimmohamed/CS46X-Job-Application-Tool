@@ -33,4 +33,6 @@ parsed_resume_output.json
 .idea/
 backend/examples/encrypted_profile.json
 backend/examples/encryption.key
+backend/debug_html_snapshot.html
+backend/debug_analysis_result.json
 
