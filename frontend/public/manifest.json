@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "Job Application Tool",
+  "version": "1.0.0",
+  "description": "AI-powered Chrome extension that automates job applications by detecting forms, matching fields to your profile, and filling them automatically.",
+  "permissions": ["storage"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Job Application Tool"
+  }
+}
