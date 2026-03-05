@@ -222,7 +222,9 @@ class FormInteractionEngine:
                 continue
             val = self._value_from_rules(meta, profile_data)
             if val is not None:
-                res = self.execute_fill(val, sel, meta.get("type"), "rules")
+                # logs print that it was a rule, and the ID with the rule
+                real_id = meta.get("id") or "unnamed_rule_field"
+                res = self.execute_fill(val, sel, meta.get("type"), f"rule: {real_id}")
                 if res:
                     results.append(res)
                 continue
@@ -230,7 +232,9 @@ class FormInteractionEngine:
             if key != "unknown":
                 val = profile_data.get(key)
                 if val:
-                    res = self.execute_fill(val, sel, meta.get("type"), key)
+                    field_id = meta.get("id") or "no_id"
+                    # test logs say that key was gathered with AI, and prints the field with it
+                    res = self.execute_fill(val, sel, meta.get("type"), f"ai:{key} {field_id}")
                     if res:
                         results.append(res)
             else:
@@ -342,6 +346,7 @@ class FormInteractionEngine:
             return {"field": backend_key, "status": "SUCCESS"}
         except Exception as e:
             return {"field": backend_key, "status": "FAILED", "error": str(e)}
+
 
     def save_logs(self, results: List[Dict], filename: str = "interaction_log.json") -> None:
         with open(filename, "w") as f:
