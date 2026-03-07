@@ -250,6 +250,12 @@ class FormInteractionEngine:
                 for meta in unknown:
                     sel = meta.get("selector") or meta.get("id")
                     if not sel or not self._verify_selector(sel):
+                        # print to test logs if selenium didn't know what to do here
+                        results.append({
+                            "field": f"skipped: {sel}",
+                            "status": "SKIPPED",
+                            "reason": "Element not available"
+                        })
                         continue
                     val = llm_map.get(sel) or llm_map.get(meta.get("id"))
                     if val and str(val).strip().upper() != "N/A":
@@ -259,6 +265,14 @@ class FormInteractionEngine:
                         )
                         if res:
                             results.append(res)
+                    else:
+                        # print to test log if result was "N/A"
+                        results.append({
+                            "field": f"key: {sel}",
+                            "status": "SKIPPED",
+                            "reason": "result was N/A"
+                        })
+
             except Exception as e:
                 print(f"Mapping failed: {e}")
         return results
