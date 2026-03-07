@@ -224,7 +224,9 @@ class FormInteractionEngine:
             if val is not None:
                 # logs print that it was a rule, and the ID with the rule
                 real_id = meta.get("id") or "unnamed_rule_field"
-                res = self.execute_fill(val, sel, meta.get("type"), f"rule: {real_id}")
+                res = self.execute_fill(
+                    val, sel, meta.get("type"), f"rule: {real_id}"
+                    )
                 if res:
                     results.append(res)
                 continue
@@ -233,8 +235,10 @@ class FormInteractionEngine:
                 val = profile_data.get(key)
                 if val:
                     field_id = meta.get("id") or "no_id"
-                    # test logs say that key was gathered with AI, and prints the field with it
-                    res = self.execute_fill(val, sel, meta.get("type"), f"ai:{key} {field_id}")
+                    # logs print that it was a key that was used, and prints the key
+                    res = self.execute_fill(
+                        val, sel, meta.get("type"), f"key: {key}"
+                        )
                     if res:
                         results.append(res)
             else:
@@ -250,7 +254,8 @@ class FormInteractionEngine:
                     val = llm_map.get(sel) or llm_map.get(meta.get("id"))
                     if val and str(val).strip().upper() != "N/A":
                         res = self.execute_fill(
-                            val, sel, meta.get("type"), "llm"
+                            # test logs say that key was gathered with the LLM, and prints the field with it
+                            val, sel, meta.get("type"), f"llm: {sel}"
                         )
                         if res:
                             results.append(res)
