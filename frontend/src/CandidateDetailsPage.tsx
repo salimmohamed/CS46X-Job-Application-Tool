@@ -20,9 +20,15 @@ function CandidateDetailsPage() {
 
     try {
       await saveProfile(data);
+
+      // Also save to Chrome storage so the extension popup can display it
+      if (typeof chrome !== 'undefined' && chrome.storage?.local) {
+        chrome.storage.local.set({ user_profile: data });
+      } else {
+        localStorage.setItem('user_profile', JSON.stringify(data));
+      }
+
       setSuccess(true);
-      // Optionally navigate to a confirmation page or dashboard
-      // navigate('/dashboard');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to save profile');
     } finally {

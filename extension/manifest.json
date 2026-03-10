@@ -4,6 +4,9 @@
   "version": "1.0.0",
   "description": "Track and manage job applications directly from your browser.",
   "permissions": ["storage"],
+  "action": {
+    "default_popup": "popup.html"
+  },
   "background": {
     "service_worker": "background.js"
   }
