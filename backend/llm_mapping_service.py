@@ -222,7 +222,11 @@ class FormInteractionEngine:
                 continue
             val = self._value_from_rules(meta, profile_data)
             if val is not None:
-                res = self.execute_fill(val, sel, meta.get("type"), "rules")
+                # logs print that it was a rule, and the ID with the rule
+                real_id = meta.get("id") or "unnamed_rule_field"
+                res = self.execute_fill(
+                    val, sel, meta.get("type"), f"rule: {real_id}"
+                    )
                 if res:
                     results.append(res)
                 continue
@@ -230,7 +234,11 @@ class FormInteractionEngine:
             if key != "unknown":
                 val = profile_data.get(key)
                 if val:
-                    res = self.execute_fill(val, sel, meta.get("type"), key)
+                    field_id = meta.get("id") or "no_id"
+                    # logs print that it was a key that was used, and prints the key
+                    res = self.execute_fill(
+                        val, sel, meta.get("type"), f"key: {key}"
+                        )
                     if res:
                         results.append(res)
             else:
@@ -242,14 +250,29 @@ class FormInteractionEngine:
                 for meta in unknown:
                     sel = meta.get("selector") or meta.get("id")
                     if not sel or not self._verify_selector(sel):
+                        # print to test logs if selenium didn't know what to do here
+                        results.append({
+                            "field": f"skipped: {sel}",
+                            "status": "SKIPPED",
+                            "reason": "Element not available"
+                        })
                         continue
                     val = llm_map.get(sel) or llm_map.get(meta.get("id"))
                     if val and str(val).strip().upper() != "N/A":
                         res = self.execute_fill(
-                            val, sel, meta.get("type"), "llm"
+                            # test logs say that key was gathered with the LLM, and prints the field with it
+                            val, sel, meta.get("type"), f"llm: {sel}"
                         )
                         if res:
                             results.append(res)
+                    else:
+                        # print to test log if result was "N/A"
+                        results.append({
+                            "field": f"key: {sel}",
+                            "status": "SKIPPED",
+                            "reason": "result was N/A"
+                        })
+
             except Exception as e:
                 print(f"Mapping failed: {e}")
         return results
@@ -342,6 +365,7 @@ class FormInteractionEngine:
             return {"field": backend_key, "status": "SUCCESS"}
         except Exception as e:
             return {"field": backend_key, "status": "FAILED", "error": str(e)}
+
 
     def save_logs(self, results: List[Dict], filename: str = "interaction_log.json") -> None:
         with open(filename, "w") as f:
