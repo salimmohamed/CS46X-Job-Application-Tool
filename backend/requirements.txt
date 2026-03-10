@@ -8,6 +8,12 @@ openai>=1.12.0
 requests==2.31.0
 pydantic>=2.10.0
 httpx>=0.25.0
+python-dotenv>=1.0.0
+pypdf>=4.0.0
+python-multipart>=0.0.6
+
+# Sample resume PDF generation
+reportlab>=4.0.0
 
 # Testing
 pytest>=7.4.0

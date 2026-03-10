@@ -76,3 +76,70 @@ export interface ProfileSection {
   fieldCount: number;
   completedFieldCount: number;
 }
+
+const emptyWorkExperience: WorkExperience = {
+  company_name: '',
+  position: '',
+  start_month: '',
+  start_year: '',
+  end_month: '',
+  end_year: '',
+  description: '',
+};
+
+const emptySkill: Skill = { skill_name: '' };
+
+const emptyEducation: Education = {
+  start_month: '',
+  start_year: '',
+  end_month: '',
+  end_year: '',
+};
+
+/** Empty applicant info for "Create Profile" and initial state */
+export const emptyApplicantInfo: ApplicantInfo = {
+  first_name: '',
+  last_name: '',
+  email: '',
+  phone: '',
+  address: '',
+  city: '',
+  state: '',
+  zip_code: '',
+  country: '',
+  resume_path: '',
+  cover_letter_path: '',
+  linkedin_url: '',
+  portfolio_url: '',
+  years_of_experience: '',
+  education_level: '',
+  college_name: '',
+  salary_expectation: '',
+  work_experience: {
+    job_1: { ...emptyWorkExperience },
+    job_2: { ...emptyWorkExperience },
+    job_3: { ...emptyWorkExperience },
+  },
+  technical_experience: {
+    skill_1: { ...emptySkill },
+    skill_2: { ...emptySkill },
+    skill_3: { ...emptySkill },
+    skill_4: { ...emptySkill },
+    skill_5: { ...emptySkill },
+  },
+  education: { ...emptyEducation },
+  willing_to_relocate: '',
+  availability_date: '',
+  work_authorization: '',
+  gender: '',
+  race_ethnicity: '',
+  race: '',
+  ethnicity: '',
+  veteran_status: '',
+  disability_status: '',
+  requires_visa_sponsorship: '',
+};
+
+export const emptyUserProfile: UserProfile = {
+  applicant_info: { ...emptyApplicantInfo },
+};

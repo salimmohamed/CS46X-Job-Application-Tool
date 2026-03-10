@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  resume-parser:
+  backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -11,8 +11,25 @@ services:
       - ./backend/.env
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
-      - DEFAULT_ENDPOINT=${DEFAULT_ENDPOINT:-http://encryption-service:8001/encrypt}
+      - DEFAULT_ENDPOINT=${DEFAULT_ENDPOINT:-}
     volumes:
       - ./backend/profile.json:/app/profile.json
+      - backend_uploads:/app/uploads
     restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        # Set to your backend URL as seen by the user's browser (e.g. http://localhost:8000 or https://api.yoursite.com)
+        VITE_API_URL: ${VITE_API_URL:-http://localhost:8000}
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  backend_uploads: {}
 

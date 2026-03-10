@@ -1,17 +1,43 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import CandidateDetailsForm from './components/CandidateDetailsForm';
 import { ProfileData, createEmptyProfile } from './types/profile';
-import { saveProfile } from './services/resumeAPI';
-import { useState } from 'react';
+import { saveProfile, getProfile } from './services/resumeAPI';
+import { useState, useEffect } from 'react';
 
 function CandidateDetailsPage() {
   const location = useLocation();
+  const [parsedData, setParsedData] = useState<ProfileData | null>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
-  // Get parsed data from navigation state, or use empty profile as fallback
-  const parsedData = (location.state?.profileData as ProfileData) || createEmptyProfile();
+  // Use upload state when present; otherwise fetch from backend (empty profile when no upload)
+  useEffect(() => {
+    const stateData = location.state?.profileData as ProfileData | undefined;
+    if (stateData) {
+      setParsedData(stateData);
+      return;
+    }
+    getProfile()
+      .then((data) => {
+        const empty = createEmptyProfile();
+        const info = data?.applicant_info;
+        if (!info || Object.keys(info).length === 0) {
+          setParsedData(empty);
+        } else {
+          setParsedData({
+            applicant_info: {
+              ...empty.applicant_info,
+              ...info,
+              work_experience: { ...empty.applicant_info.work_experience, ...info.work_experience },
+              technical_experience: { ...empty.applicant_info.technical_experience, ...info.technical_experience },
+              education: { ...empty.applicant_info.education, ...info.education },
+            },
+          });
+        }
+      })
+      .catch(() => setParsedData(createEmptyProfile()));
+  }, [location.state?.profileData]);
 
   const handleSubmit = async (data: ProfileData) => {
     setSaving(true);
@@ -36,6 +62,17 @@ function CandidateDetailsPage() {
     }
   };
 
+  if (parsedData === null) {
+    return (
+      <div className="candidate-details-page">
+        <div className="loading-message">Loading profile...</div>
+        <style>{`
+          .loading-message { text-align: center; padding: 2rem; color: #666; }
+        `}</style>
+      </div>
+    );
+  }
+
   return (
     <div className="candidate-details-page">
       {error && (
@@ -45,23 +82,32 @@ function CandidateDetailsPage() {
       )}
       {success && (
         <div className="success-banner">
-          Profile saved successfully!
+          Profile saved successfully!{' '}
+          <Link to="/apply" className="success-link">Continue to Apply →</Link>
         </div>
       )}
+      <div className="candidate-details-actions">
+        <Link to="/apply" className="apply-link">Go to Apply (run autofill) →</Link>
+      </div>
       {saving && (
         <div className="saving-overlay">
           Saving...
         </div>
       )}
       <CandidateDetailsForm
+        key={parsedData.applicant_info?.resume_path || parsedData.applicant_info?.email || 'new'}
         initialData={parsedData}
         onSubmit={handleSubmit}
       />
       <style>{`
         .candidate-details-page {
+          width: 100%;
           min-height: 100vh;
           background-color: #f5f5f5;
+          color: #1a1a2e;
           padding: 2rem 1rem;
+          box-sizing: border-box;
+          pointer-events: auto;
         }
         .error-banner {
           max-width: 900px;
@@ -82,6 +128,22 @@ function CandidateDetailsPage() {
           border-radius: 4px;
           color: #155724;
           text-align: center;
+        }
+        .success-link {
+          color: #0d6e1e;
+          font-weight: 600;
+        }
+        .candidate-details-actions {
+          max-width: 900px;
+          margin: 0 auto 1rem auto;
+          text-align: center;
+        }
+        .apply-link {
+          color: #4361ee;
+          font-weight: 500;
+        }
+        .apply-link:hover {
+          text-decoration: underline;
         }
         .saving-overlay {
           position: fixed;

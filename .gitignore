@@ -1,4 +1,5 @@
 __pycache__/
+backend/profile.json
 *.py[cod]
 *$py.class
 *.so
@@ -36,3 +37,6 @@ backend/examples/encryption.key
 backend/debug_html_snapshot.html
 backend/debug_analysis_result.json
 
+# Logs and uploads (generated at runtime)
+backend/logs/*.log
+backend/uploads/

@@ -1,16 +1,55 @@
 // main popup component for the chrome extension
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { PopupHeader } from './PopupHeader';
 import { PopupFooter } from './PopupFooter';
 import { ProfileSectionCard } from './ProfileSectionCard';
 import { useProfileStorage } from '../hooks/useProfileStorage';
+import { emptyUserProfile } from '../types/ProfileTypes';
+import type { UserProfile } from '../types/ProfileTypes';
 import './ProfileEditorPopup.css';
 
 type TabType = 'profile' | 'matches' | 'saved';
 
 export function ProfileEditorPopup() {
   const [activeTab, setActiveTab] = useState<TabType>('profile');
-  const { profile, isLoading, error } = useProfileStorage();
+  const { profile, isLoading, error, saveProfile } = useProfileStorage();
+  const [localProfile, setLocalProfile] = useState<UserProfile | null>(null);
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+
+  useEffect(() => {
+    if (profile) {
+      setLocalProfile(JSON.parse(JSON.stringify(profile)));
+    } else {
+      setLocalProfile(null);
+    }
+  }, [profile]);
+
+  const updateField = (field: keyof UserProfile['applicant_info'], value: string) => {
+    setLocalProfile((prev) => {
+      if (!prev) return prev;
+      const next = JSON.parse(JSON.stringify(prev)) as UserProfile;
+      const info = next.applicant_info as unknown as Record<string, unknown>;
+      info[field] = value;
+      return next;
+    });
+  };
+
+  const handleSave = async () => {
+    if (!localProfile) return;
+    setSaveStatus('saving');
+    const ok = await saveProfile(localProfile);
+    setSaveStatus(ok ? 'saved' : 'error');
+    if (ok) setTimeout(() => setSaveStatus('idle'), 2000);
+  };
+
+  const handleCreateProfile = async () => {
+    const empty = JSON.parse(JSON.stringify(emptyUserProfile)) as UserProfile;
+    setLocalProfile(empty);
+    const ok = await saveProfile(empty);
+    if (!ok) setSaveStatus('error');
+  };
+
+  const displayProfile = localProfile ?? profile;
 
   const getFieldCount = (obj: Record<string, unknown> | undefined): { completed: number; total: number } => {
     if (!obj) return { completed: 0, total: 0 };
@@ -27,7 +66,7 @@ export function ProfileEditorPopup() {
     return { completed, total };
   };
 
-  const personalInfo = profile?.applicant_info;
+  const personalInfo = displayProfile?.applicant_info;
   const contactFields = getFieldCount({
     first_name: personalInfo?.first_name,
     last_name: personalInfo?.last_name,
@@ -74,7 +113,7 @@ export function ProfileEditorPopup() {
       );
     }
 
-    if (!profile) {
+    if (!displayProfile) {
       return (
         <div className="popup-empty">
           <h3>No Profile Yet</h3>
@@ -95,19 +134,19 @@ export function ProfileEditorPopup() {
         >
           <div className="profile-field">
             <label>First Name</label>
-            <input type="text" defaultValue={personalInfo?.first_name} placeholder="Enter first name" />
+            <input type="text" value={personalInfo?.first_name ?? ''} onChange={(e) => updateField('first_name', e.target.value)} placeholder="Enter first name" />
           </div>
           <div className="profile-field">
             <label>Last Name</label>
-            <input type="text" defaultValue={personalInfo?.last_name} placeholder="Enter last name" />
+            <input type="text" value={personalInfo?.last_name ?? ''} onChange={(e) => updateField('last_name', e.target.value)} placeholder="Enter last name" />
           </div>
           <div className="profile-field">
             <label>Email</label>
-            <input type="email" defaultValue={personalInfo?.email} placeholder="Enter email" />
+            <input type="email" value={personalInfo?.email ?? ''} onChange={(e) => updateField('email', e.target.value)} placeholder="Enter email" />
           </div>
           <div className="profile-field">
             <label>Phone</label>
-            <input type="tel" defaultValue={personalInfo?.phone} placeholder="Enter phone" />
+            <input type="tel" value={personalInfo?.phone ?? ''} onChange={(e) => updateField('phone', e.target.value)} placeholder="Enter phone" />
           </div>
         </ProfileSectionCard>
 
@@ -118,26 +157,26 @@ export function ProfileEditorPopup() {
         >
           <div className="profile-field">
             <label>Address</label>
-            <input type="text" defaultValue={personalInfo?.address} placeholder="Enter address" />
+            <input type="text" value={personalInfo?.address ?? ''} onChange={(e) => updateField('address', e.target.value)} placeholder="Enter address" />
           </div>
           <div className="profile-field-row">
             <div className="profile-field">
               <label>City</label>
-              <input type="text" defaultValue={personalInfo?.city} placeholder="City" />
+              <input type="text" value={personalInfo?.city ?? ''} onChange={(e) => updateField('city', e.target.value)} placeholder="City" />
             </div>
             <div className="profile-field">
               <label>State</label>
-              <input type="text" defaultValue={personalInfo?.state} placeholder="State" />
+              <input type="text" value={personalInfo?.state ?? ''} onChange={(e) => updateField('state', e.target.value)} placeholder="State" />
             </div>
           </div>
           <div className="profile-field-row">
             <div className="profile-field">
               <label>Zip Code</label>
-              <input type="text" defaultValue={personalInfo?.zip_code} placeholder="Zip" />
+              <input type="text" value={personalInfo?.zip_code ?? ''} onChange={(e) => updateField('zip_code', e.target.value)} placeholder="Zip" />
             </div>
             <div className="profile-field">
               <label>Country</label>
-              <input type="text" defaultValue={personalInfo?.country} placeholder="Country" />
+              <input type="text" value={personalInfo?.country ?? ''} onChange={(e) => updateField('country', e.target.value)} placeholder="Country" />
             </div>
           </div>
         </ProfileSectionCard>
@@ -149,11 +188,11 @@ export function ProfileEditorPopup() {
         >
           <div className="profile-field">
             <label>LinkedIn URL</label>
-            <input type="url" defaultValue={personalInfo?.linkedin_url} placeholder="https://linkedin.com/in/..." />
+            <input type="url" value={personalInfo?.linkedin_url ?? ''} onChange={(e) => updateField('linkedin_url', e.target.value)} placeholder="https://linkedin.com/in/..." />
           </div>
           <div className="profile-field">
             <label>Portfolio URL</label>
-            <input type="url" defaultValue={personalInfo?.portfolio_url} placeholder="https://..." />
+            <input type="url" value={personalInfo?.portfolio_url ?? ''} onChange={(e) => updateField('portfolio_url', e.target.value)} placeholder="https://..." />
           </div>
         </ProfileSectionCard>
 
@@ -164,7 +203,7 @@ export function ProfileEditorPopup() {
         >
           <div className="profile-field">
             <label>Years of Experience</label>
-            <select defaultValue={personalInfo?.years_of_experience}>
+            <select value={personalInfo?.years_of_experience ?? ''} onChange={(e) => updateField('years_of_experience', e.target.value)}>
               <option value="">Select...</option>
               <option value="0-1">0-1 years</option>
               <option value="1-3">1-3 years</option>
@@ -182,7 +221,7 @@ export function ProfileEditorPopup() {
         >
           <div className="profile-field">
             <label>Education Level</label>
-            <select defaultValue={personalInfo?.education_level}>
+            <select value={personalInfo?.education_level ?? ''} onChange={(e) => updateField('education_level', e.target.value)}>
               <option value="">Select...</option>
               <option value="high_school">High School</option>
               <option value="associate">Associate's Degree</option>
@@ -193,9 +232,15 @@ export function ProfileEditorPopup() {
           </div>
           <div className="profile-field">
             <label>College/University</label>
-            <input type="text" defaultValue={personalInfo?.college_name} placeholder="Enter school name" />
+            <input type="text" value={personalInfo?.college_name ?? ''} onChange={(e) => updateField('college_name', e.target.value)} placeholder="Enter school name" />
           </div>
         </ProfileSectionCard>
+
+        <div className="popup-save-row">
+          <button type="button" className="popup-save-button" onClick={handleSave} disabled={saveStatus === 'saving'}>
+            {saveStatus === 'saving' ? 'Saving...' : saveStatus === 'saved' ? 'Saved!' : 'Save Profile'}
+          </button>
+        </div>
       </div>
     );
   };
@@ -217,7 +262,7 @@ export function ProfileEditorPopup() {
   return (
     <div className="profile-editor-popup">
       <PopupHeader
-        userName={profile?.applicant_info?.first_name}
+        userName={displayProfile?.applicant_info?.first_name}
         onSettingsClick={() => console.log('Settings clicked')}
       />
 

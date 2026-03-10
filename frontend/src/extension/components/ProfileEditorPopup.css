@@ -126,6 +126,34 @@
   background-color: #535bf2;
 }
 
+.popup-save-row {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #333;
+}
+
+.popup-save-button {
+  width: 100%;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+  background-color: #646cff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s, opacity 0.2s;
+}
+
+.popup-save-button:hover:not(:disabled) {
+  background-color: #535bf2;
+}
+
+.popup-save-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 .popup-placeholder {
   display: flex;
   flex-direction: column;

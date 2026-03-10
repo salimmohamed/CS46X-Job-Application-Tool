@@ -88,6 +88,7 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
   };
 
   const info = formData.applicant_info;
+  const v = (s: string | undefined) => s ?? '';
 
   return (
     <form className="candidate-form" onSubmit={handleSubmit}>
@@ -107,7 +108,7 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
             <input
               id="first_name"
               type="text"
-              value={info.first_name}
+              value={v(info.first_name)}
               onChange={(e) => handleChange('first_name', e.target.value)}
               required
             />
@@ -117,7 +118,7 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
             <input
               id="last_name"
               type="text"
-              value={info.last_name}
+              value={v(info.last_name)}
               onChange={(e) => handleChange('last_name', e.target.value)}
               required
             />
@@ -127,7 +128,7 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
             <input
               id="email"
               type="email"
-              value={info.email}
+              value={v(info.email)}
               onChange={(e) => handleChange('email', e.target.value)}
               required
             />
@@ -137,8 +138,8 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
             <input
               id="phone"
               type="tel"
-              value={info.phone}
-              onChange={(e) => handleChange('phone', e.target.value)}
+value={v(info.phone)}
+            onChange={(e) => handleChange('phone', e.target.value)}
             />
           </div>
         </div>
@@ -153,8 +154,8 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
             <input
               id="address"
               type="text"
-              value={info.address}
-              onChange={(e) => handleChange('address', e.target.value)}
+value={v(info.address)}
+            onChange={(e) => handleChange('address', e.target.value)}
             />
           </div>
           <div className={`form-group ${isUnknown('city') ? 'unknown' : ''}`}>
@@ -162,8 +163,8 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
             <input
               id="city"
               type="text"
-              value={info.city}
-              onChange={(e) => handleChange('city', e.target.value)}
+value={v(info.city)}
+            onChange={(e) => handleChange('city', e.target.value)}
             />
           </div>
           <div className={`form-group ${isUnknown('state') ? 'unknown' : ''}`}>
@@ -171,8 +172,8 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
             <input
               id="state"
               type="text"
-              value={info.state}
-              onChange={(e) => handleChange('state', e.target.value)}
+value={v(info.state)}
+            onChange={(e) => handleChange('state', e.target.value)}
             />
           </div>
           <div className={`form-group ${isUnknown('zip_code') ? 'unknown' : ''}`}>
@@ -180,8 +181,8 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
             <input
               id="zip_code"
               type="text"
-              value={info.zip_code}
-              onChange={(e) => handleChange('zip_code', e.target.value)}
+value={v(info.zip_code)}
+            onChange={(e) => handleChange('zip_code', e.target.value)}
             />
           </div>
           <div className={`form-group ${isUnknown('country') ? 'unknown' : ''}`}>
@@ -189,8 +190,8 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
             <input
               id="country"
               type="text"
-              value={info.country}
-              onChange={(e) => handleChange('country', e.target.value)}
+value={v(info.country)}
+            onChange={(e) => handleChange('country', e.target.value)}
             />
           </div>
         </div>
@@ -205,7 +206,7 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
             <input
               id="linkedin_url"
               type="url"
-              value={info.linkedin_url}
+              value={v(info.linkedin_url)}
               onChange={(e) => handleChange('linkedin_url', e.target.value)}
               placeholder="https://linkedin.com/in/..."
             />
@@ -215,7 +216,7 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
             <input
               id="portfolio_url"
               type="url"
-              value={info.portfolio_url}
+              value={v(info.portfolio_url)}
               onChange={(e) => handleChange('portfolio_url', e.target.value)}
               placeholder="https://..."
             />
@@ -232,7 +233,7 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
             <input
               id="education_level"
               type="text"
-              value={info.education_level}
+              value={v(info.education_level)}
               onChange={(e) => handleChange('education_level', e.target.value)}
               placeholder="e.g., Bachelor's in Computer Science"
             />
@@ -242,7 +243,7 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
             <input
               id="college_name"
               type="text"
-              value={info.college_name}
+              value={v(info.college_name)}
               onChange={(e) => handleChange('college_name', e.target.value)}
             />
           </div>
@@ -250,7 +251,7 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
             <label htmlFor="edu_start_month">Start Month</label>
             <select
               id="edu_start_month"
-              value={info.education.start_month}
+              value={v(info.education && info.education.start_month)}
               onChange={(e) => handleChange('education.start_month', e.target.value)}
             >
               <option value="">Select Month</option>
@@ -263,7 +264,7 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
             <label htmlFor="edu_start_year">Start Year</label>
             <select
               id="edu_start_year"
-              value={info.education.start_year}
+              value={v(info.education && info.education.start_year)}
               onChange={(e) => handleChange('education.start_year', e.target.value)}
             >
               <option value="">Select Year</option>
@@ -276,7 +277,7 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
             <label htmlFor="edu_end_month">End Month</label>
             <select
               id="edu_end_month"
-              value={info.education.end_month}
+              value={v(info.education && info.education.end_month)}
               onChange={(e) => handleChange('education.end_month', e.target.value)}
             >
               <option value="">Select Month</option>
@@ -289,7 +290,7 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
             <label htmlFor="edu_end_year">End Year</label>
             <select
               id="edu_end_year"
-              value={info.education.end_year}
+              value={v(info.education && info.education.end_year)}
               onChange={(e) => handleChange('education.end_year', e.target.value)}
             >
               <option value="">Select Year</option>
@@ -315,7 +316,7 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
                   <input
                     id={`${jobKey}_company`}
                     type="text"
-                    value={job.company_name}
+                    value={v(job.company_name)}
                     onChange={(e) => handleChange(`work_experience.${jobKey}.company_name`, e.target.value)}
                   />
                 </div>
@@ -324,7 +325,7 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
                   <input
                     id={`${jobKey}_position`}
                     type="text"
-                    value={job.position}
+                    value={v(job.position)}
                     onChange={(e) => handleChange(`work_experience.${jobKey}.position`, e.target.value)}
                   />
                 </div>
@@ -332,7 +333,7 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
                   <label htmlFor={`${jobKey}_start_month`}>Start Month</label>
                   <select
                     id={`${jobKey}_start_month`}
-                    value={job.start_month}
+                    value={v(job.start_month)}
                     onChange={(e) => handleChange(`work_experience.${jobKey}.start_month`, e.target.value)}
                   >
                     <option value="">Select Month</option>
@@ -345,7 +346,7 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
                   <label htmlFor={`${jobKey}_start_year`}>Start Year</label>
                   <select
                     id={`${jobKey}_start_year`}
-                    value={job.start_year}
+                    value={v(job.start_year)}
                     onChange={(e) => handleChange(`work_experience.${jobKey}.start_year`, e.target.value)}
                   >
                     <option value="">Select Year</option>
@@ -358,7 +359,7 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
                   <label htmlFor={`${jobKey}_end_month`}>End Month</label>
                   <select
                     id={`${jobKey}_end_month`}
-                    value={job.end_month}
+                    value={v(job.end_month)}
                     onChange={(e) => handleChange(`work_experience.${jobKey}.end_month`, e.target.value)}
                   >
                     <option value="">Select Month</option>
@@ -372,7 +373,7 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
                   <label htmlFor={`${jobKey}_end_year`}>End Year</label>
                   <select
                     id={`${jobKey}_end_year`}
-                    value={job.end_year}
+                    value={v(job.end_year)}
                     onChange={(e) => handleChange(`work_experience.${jobKey}.end_year`, e.target.value)}
                   >
                     <option value="">Select Year</option>
@@ -386,7 +387,7 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
                   <label htmlFor={`${jobKey}_description`}>Description</label>
                   <textarea
                     id={`${jobKey}_description`}
-                    value={job.description}
+                    value={v(job.description)}
                     onChange={(e) => handleChange(`work_experience.${jobKey}.description`, e.target.value)}
                     rows={3}
                   />
@@ -407,7 +408,7 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
               <input
                 id={skillKey}
                 type="text"
-                value={info.technical_experience[skillKey].skill_name}
+                value={v(info.technical_experience[skillKey].skill_name)}
                 onChange={(e) => handleChange(`technical_experience.${skillKey}.skill_name`, e.target.value)}
                 placeholder="e.g., Python, React, SQL..."
               />
@@ -425,7 +426,7 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
             <input
               id="years_of_experience"
               type="text"
-              value={info.years_of_experience}
+              value={v(info.years_of_experience)}
               onChange={(e) => handleChange('years_of_experience', e.target.value)}
             />
           </div>
@@ -434,7 +435,7 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
             <input
               id="salary_expectation"
               type="text"
-              value={info.salary_expectation}
+              value={v(info.salary_expectation)}
               onChange={(e) => handleChange('salary_expectation', e.target.value)}
               placeholder="e.g., 75000"
             />
@@ -443,7 +444,7 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
             <label htmlFor="willing_to_relocate">Willing to Relocate</label>
             <select
               id="willing_to_relocate"
-              value={info.willing_to_relocate}
+              value={v(info.willing_to_relocate)}
               onChange={(e) => handleChange('willing_to_relocate', e.target.value)}
             >
               <option value="">Select...</option>
@@ -457,7 +458,7 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
             <input
               id="availability_date"
               type="date"
-              value={info.availability_date}
+              value={v(info.availability_date)}
               onChange={(e) => handleChange('availability_date', e.target.value)}
             />
           </div>
@@ -465,7 +466,7 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
             <label htmlFor="work_authorization">Work Authorization</label>
             <select
               id="work_authorization"
-              value={info.work_authorization}
+              value={v(info.work_authorization)}
               onChange={(e) => handleChange('work_authorization', e.target.value)}
             >
               <option value="">Select...</option>
@@ -480,7 +481,7 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
             <label htmlFor="requires_visa_sponsorship">Requires Visa Sponsorship</label>
             <select
               id="requires_visa_sponsorship"
-              value={info.requires_visa_sponsorship}
+              value={v(info.requires_visa_sponsorship)}
               onChange={(e) => handleChange('requires_visa_sponsorship', e.target.value)}
             >
               <option value="">Select...</option>
@@ -502,7 +503,7 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
             <label htmlFor="gender">Gender</label>
             <select
               id="gender"
-              value={info.gender}
+              value={v(info.gender)}
               onChange={(e) => handleChange('gender', e.target.value)}
             >
               <option value="">Prefer not to say</option>
@@ -516,7 +517,7 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
             <label htmlFor="race_ethnicity">Race/Ethnicity</label>
             <select
               id="race_ethnicity"
-              value={info.race_ethnicity}
+              value={v(info.race_ethnicity)}
               onChange={(e) => handleChange('race_ethnicity', e.target.value)}
             >
               <option value="">Prefer not to say</option>
@@ -533,7 +534,7 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
             <label htmlFor="veteran_status">Veteran Status</label>
             <select
               id="veteran_status"
-              value={info.veteran_status}
+              value={v(info.veteran_status)}
               onChange={(e) => handleChange('veteran_status', e.target.value)}
             >
               <option value="">Prefer not to say</option>
@@ -545,7 +546,7 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
             <label htmlFor="disability_status">Disability Status</label>
             <select
               id="disability_status"
-              value={info.disability_status}
+              value={v(info.disability_status)}
               onChange={(e) => handleChange('disability_status', e.target.value)}
             >
               <option value="">Prefer not to say</option>

@@ -10,7 +10,7 @@ except ImportError:
     OpenAI = None
 
 DEFAULT_MODEL = "gpt-4o-mini"
-MAX_HTML_CHARS = 80000
+MAX_HTML_CHARS = 36000
 SAFE_DEFAULT = {
     "forms": [],
     "buttons": [],

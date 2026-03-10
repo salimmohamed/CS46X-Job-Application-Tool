@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { uploadResume } from './services/resumeAPI'
+import { uploadResume, clearProfile } from './services/resumeAPI'
 import { ProfileData } from './types/profile'
 
 // Sample data for demo mode - simulates partially parsed resume
@@ -82,7 +82,20 @@ function UploadPage() {
     const [resume, setResume] = useState<File | null>(null)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
+    const [clearing, setClearing] = useState(false)
     const navigate = useNavigate()
+
+    const handleClearProfile = async () => {
+        setClearing(true)
+        setError(null)
+        try {
+            await clearProfile()
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Failed to clear profile')
+        } finally {
+            setClearing(false)
+        }
+    }
 
     const handleUpload = async () => {
         if (!resume) return
@@ -147,6 +160,10 @@ function UploadPage() {
                 >
                     Try Demo with Sample Data
                 </button>
+
+                <p className="cache-hint">
+                    Seeing old data? <button type="button" className="clear-link" onClick={handleClearProfile} disabled={clearing}>{clearing ? 'Clearing...' : 'Clear cached profile'}</button> then upload again.
+                </p>
 
                 {error && <p className="error-message">{error}</p>}
             </div>
@@ -226,6 +243,26 @@ function UploadPage() {
                     color: #dc3545;
                     margin-top: 1rem;
                     font-size: 0.9rem;
+                }
+                .cache-hint {
+                    margin-top: 1rem;
+                    font-size: 0.85rem;
+                    color: #666;
+                }
+                .clear-link {
+                    background: none;
+                    border: none;
+                    color: #667eea;
+                    cursor: pointer;
+                    text-decoration: underline;
+                    padding: 0;
+                }
+                .clear-link:hover:not(:disabled) {
+                    color: #764ba2;
+                }
+                .clear-link:disabled {
+                    cursor: not-allowed;
+                    opacity: 0.7;
                 }
                 .divider {
                     display: flex;

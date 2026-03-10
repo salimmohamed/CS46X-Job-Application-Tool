@@ -24,11 +24,15 @@ a:hover {
 
 body {
   margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+/* Centered layout only for small standalone pages (e.g. upload); form pages use full width */
+body.centered-layout {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 320px;
-  min-height: 100vh;
 }
 
 h1 {

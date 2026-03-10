@@ -9,7 +9,7 @@
     "state": "CA",
     "zip_code": "94103",
     "country": "USA",
-    "resume_path": "/uploads/resumes/alex_johnson_resume.pdf",
+    "resume_path": "tests/fixtures/sample_resume.pdf",
     "cover_letter_path": "/uploads/cover_letters/alex_johnson_cover_letter.pdf",
     "linkedin_url": "https://www.linkedin.com/in/alexjohnson",
     "portfolio_url": "https://alexjohnson.dev",

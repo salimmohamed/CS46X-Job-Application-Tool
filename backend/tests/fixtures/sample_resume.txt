@@ -1,0 +1,21 @@
+ALEX JOHNSON
+alex.johnson@example.com | +1-415-555-2478
+1234 Market Street, Apt 7B, San Francisco, CA 94103, USA
+https://www.linkedin.com/in/alexjohnson | https://alexjohnson.dev
+
+EDUCATION
+University of California, Berkeley — Bachelor's Degree in Computer Science
+2015 – 2019
+
+EXPERIENCE
+TechNova Solutions — Machine Learning Engineer (March 2022 – October 2024)
+Developed and deployed predictive models for client analytics using Python, TensorFlow, and AWS SageMaker.
+
+DataEdge Analytics — Data Scientist (May 2019 – February 2022)
+Built ETL pipelines and performed data mining on large datasets using Pandas, SQL, and Scikit-learn.
+
+BrightApps Inc. — Software Developer Intern (June 2018 – August 2018)
+Assisted in developing full-stack web features using React, Flask, and PostgreSQL.
+
+SKILLS
+Python, Machine Learning, Natural Language Processing (NLP), SQL, React.js

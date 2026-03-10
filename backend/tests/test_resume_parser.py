@@ -17,7 +17,7 @@ class TestResumeParser:
         pass
 
 
-# TODO: Add fixture for sample resume text
+# Sample resume text (matches tests/fixtures/sample.json profile): tests/fixtures/sample_resume.txt
 # TODO: Add fixture for expected JSON output
 # TODO: Add tests for OpenAI integration
 # TODO: Add tests for validation logic
