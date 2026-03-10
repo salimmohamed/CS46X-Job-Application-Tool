@@ -1,4 +1,5 @@
 # Live autofill: JOB_URL -> open page, analyze, fill. No template server.
+# Credit to Gemini for assistance in writing
 import json
 import os
 import sys

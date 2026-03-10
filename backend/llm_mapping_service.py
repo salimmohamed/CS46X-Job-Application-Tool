@@ -587,8 +587,11 @@ class FormInteractionEngine:
                 continue
             val = self._value_from_rules(meta, profile_data)
             if val is not None:
-                opts = self._options_for_log(meta)
-                res = self.execute_fill(val, sel, meta.get("type"), "rules", _field_display_name(meta, "rules"), options_available=opts, field_meta=meta)
+                # logs print that it was a rule, and the ID with the rule
+                real_id = meta.get("id") or "unnamed_rule_field"
+                res = self.execute_fill(
+                    val, sel, meta.get("type"), f"rule: {real_id}"
+                    )
                 if res:
                     results.append(res)
                 continue
@@ -596,8 +599,11 @@ class FormInteractionEngine:
             if key != "unknown":
                 val = profile_data.get(key)
                 if val:
-                    opts = self._options_for_log(meta)
-                    res = self.execute_fill(val, sel, meta.get("type"), key, _field_display_name(meta, key), options_available=opts, field_meta=meta)
+                    field_id = meta.get("id") or "no_id"
+                    # logs print that it was a key that was used, and prints the key
+                    res = self.execute_fill(
+                        val, sel, meta.get("type"), f"key: {key}"
+                        )
                     if res:
                         results.append(res)
             else:
@@ -652,43 +658,30 @@ class FormInteractionEngine:
 
                 for meta in unknown:
                     sel = meta.get("selector") or meta.get("id")
-                    if not sel:
+                    if not sel or not self._verify_selector(sel):
+                        # print to test logs if selenium didn't know what to do here
+                        results.append({
+                            "field": f"skipped: {sel}",
+                            "status": "SKIPPED",
+                            "reason": "Element not available"
+                        })
                         continue
                     val = llm_map.get(sel) or llm_map.get(meta.get("id"))
-                    if not val or str(val).strip().upper() == "N/A":
-                        continue
-                    if _is_wrong_reuse(str(val), meta):
-                        continue
-                    # Prefer profile value over LLM "Decline" for gender/race when profile has data
-                    nm = (meta.get("name") or "").lower()
-                    if "gender" in nm or "eeo_gender" in nm:
-                        g = (profile.get("gender") or "").strip()
-                        if g and str(val).lower() in ("decline to answer", "i do not wish to answer"):
-                            val = g
-                    if "race" in nm or "eeo_race" in nm or "ethnicity" in nm:
-                        r = (profile.get("race_ethnicity") or profile.get("race") or profile.get("ethnicity") or "").strip()
-                        if r and str(val).lower() in ("decline to answer", "i do not wish to answer"):
-                            val = r
-                    # Prefer profile value over LLM "decline" for veteran/disability when profile has real data
-                    _decline_phrases = ("i don't wish to answer", "i do not wish to answer", "don't wish to answer", "do not wish to answer", "decline to answer")
-                    def _is_decline_val(s: str) -> bool:
-                        return not s or any(d in (s or "").lower() for d in ("prefer not", "decline", "choose not", "rather not", "don't wish", "do not wish"))
-                    lab = (meta.get("label_text") or meta.get("label") or "").lower()
-                    if "veteran" in nm or "veteran" in lab:
-                        v = (profile.get("veteran_status") or "").strip()
-                        if v and not _is_decline_val(v) and str(val).lower() in _decline_phrases:
-                            val = self._pick_eeoc_radio_option(meta, v, "veteran") or v
-                    if ("disability" in nm or "disability" in lab) and "date" not in nm and "signature" not in nm:
-                        d = (profile.get("disability_status") or "").strip()
-                        if d and not _is_decline_val(d) and str(val).lower() in _decline_phrases:
-                            val = self._pick_eeoc_radio_option(meta, d, "disability") or d
-                    opts = self._options_for_log(meta)
-                    res = self.execute_fill(
-                        val, sel, meta.get("type"), "llm", _field_display_name(meta, "llm"),
-                        options_available=opts, field_meta=meta,
-                    )
-                    if res:
-                        results.append(res)
+                    if val and str(val).strip().upper() != "N/A":
+                        res = self.execute_fill(
+                            # test logs say that key was gathered with the LLM, and prints the field with it
+                            val, sel, meta.get("type"), f"llm: {sel}"
+                        )
+                        if res:
+                            results.append(res)
+                    else:
+                        # print to test log if result was "N/A"
+                        results.append({
+                            "field": f"key: {sel}",
+                            "status": "SKIPPED",
+                            "reason": "result was N/A"
+                        })
+
             except Exception as e:
                 print(f"Mapping failed: {e}")
         return results
@@ -919,6 +912,7 @@ class FormInteractionEngine:
             except Exception:
                 pass
             return _fail(err_msg)
+
 
     def save_logs(self, results: List[Dict], filename: str = "interaction_log.json") -> None:
         with open(filename, "w") as f:
