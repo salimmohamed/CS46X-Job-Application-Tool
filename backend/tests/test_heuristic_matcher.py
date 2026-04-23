@@ -10,8 +10,6 @@ class HeuristicMatcher:
             "last_name": ["last name", "surname", "family name", "lname", "lastname"],
             "email": ["email", "e-mail address", "email address", "emailaddress"],
             "phone": ["phone", "mobile", "cell", "contact number", "phonenumber"],
-            "address_line_1": ["address line 1", "street address", "address 1", "mailing address", "address"],
-            "address_line_2": ["address line 2", "address 2", "apt", "suite", "unit", "ste", "apartment"],
             "resume": ["resume", "cv", "curriculum vitae", "upload resume"]
         }
 
@@ -45,19 +43,6 @@ class HeuristicMatcher:
                 if score > highest_score:
                     highest_score = score
                     best_field = standard_key
-
-        # stop address_line_1 from dominating all the location fills due to heuristic matching "address" with every address field
-        if best_field == "address_line_1":
-            # if supposed to be city:
-            if "city" in search_blob:
-                best_field = "city"
-            # if supposed to be zip-code:
-            if any(x in search_blob for x in ["zip-code", "zipcode", "zip", "postal"]):
-                best_field = "zip_code"
-            # if supposed to be address line 2
-            if any(x in search_blob for x in ["address 2", "apt", "suite", "unit", "ste", "apartment"]):
-                # overrule previous guess and make it actually address 2
-                best_field = "address_line_2"
 
         # only return the key if confidence threshold is high enough
         return best_field if highest_score > 0.6 else "unknown"

@@ -391,20 +391,14 @@ class FormInteractionEngine:
         if ("referral" in name or "referred" in name or "referral" in label or "referred" in label) and "who" not in label and "indicate" not in label:
             v = profile.get("referred_by_employee") or profile.get("referred_by_recruiting_agency")
             return "Yes" if v and str(v).lower() in ("yes", "true", "1") else "No"
-        if "email" in name or "email" in label:
-            return (profile.get("email") or "").strip()
+        if "address" in name or label in ("address", "location"):
+            return (profile.get("address") or "").strip()
         if "city" in name or "city" in label:
             return (profile.get("city") or "").strip()
         if "state" in name or "state" in label:
             return (profile.get("state") or "").strip()
         if "postal" in name or "zip" in name or "postal" in label or "zip" in label:
             return (profile.get("zip_code") or profile.get("postal_code") or "").strip()
-        if "address" in name or label in ("address", "location"):
-            # Check if address line 2, suite, apartment, or unit
-            if any(x in name or x in label for x in ["2", "line2", "apt", "suite", "unit"]):
-                return (profile.get("address_line_2") or "").strip()
-            # otherwise return regular address
-            return (profile.get("address_line_1") or profile.get("address") or "").strip()
         if "signature" in name and "disability" in name:
             fn = (profile.get("first_name") or "").strip()
             ln = (profile.get("last_name") or "").strip()

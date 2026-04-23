@@ -4,10 +4,9 @@
     "last_name": "",
     "email": "",
     "phone": "",
-    "address_line_1": "",
-    "address_line_2": "",
+    "address": "",
     "city": "",
-    "state": ""
+    "state": "",
     "zip_code": "",
     "country": "",
     "resume_path": "",

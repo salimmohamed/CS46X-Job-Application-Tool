@@ -121,7 +121,7 @@ def _selector_to_by(selector: str):
 
 PROFILE_FIELD_NAMES = [
     "firstname", "lastname", "first_name", "last_name", "email", "phone",
-    "address_line_1", "address_line_2", "city", "state", "postal", "zip", "resume", "cv",
+    "address", "city", "state", "postal", "zip", "resume", "cv",
 ]
 
 # Generic button semantics: classify by visible text only (works for any ATS).
