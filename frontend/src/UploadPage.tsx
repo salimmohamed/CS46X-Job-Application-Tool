@@ -8,9 +8,11 @@ const SAMPLE_PARSED_DATA: ProfileData = {
     applicant_info: {
         first_name: "Alex",
         last_name: "Johnson",
+        preferred_name: "",
         email: "alex.johnson@example.com",
         phone: "+1-415-555-2478",
-        address: "",
+        address_line_1: "",
+        address_line_2: "",
         city: "San Francisco",
         state: "CA",
         zip_code: "",
