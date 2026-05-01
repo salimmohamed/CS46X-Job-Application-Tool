@@ -118,7 +118,7 @@ export function ProfileEditorPopup() {
         <div className="popup-empty">
           <h3>No Profile Yet</h3>
           <p>Upload your resume to get started, or fill in your details manually.</p>
-          <button className="popup-empty-button" onClick={() => window.open('http://localhost:5173/', '_blank')}>
+          <button type="button" className="popup-empty-button" onClick={handleCreateProfile}>
             Create Profile
           </button>
         </div>
