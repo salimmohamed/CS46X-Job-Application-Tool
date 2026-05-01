@@ -1,0 +1,322 @@
+{
+  "template_id": "taleo_customer_success",
+  "name": "Taleo - Customer Success Manager Application",
+  "description": "A Taleo-style application flow with profile creation, prescreen questions, and voluntary disclosure.",
+  "pages": [
+    {
+      "page_id": "profile",
+      "title": "Candidate Profile",
+      "description": "Create or update your candidate profile.",
+      "fields": [
+        {
+          "id": "profile_first_name",
+          "name": "profile_first_name",
+          "label": "First Name",
+          "field_type": "text",
+          "required": true,
+          "placeholder": "First name",
+          "validation_pattern": null,
+          "validation_message": null,
+          "options": [],
+          "expected_value_type": "name",
+          "css_selector": "#profile_first_name",
+          "css_class": "taleo-input",
+          "help_text": null
+        },
+        {
+          "id": "profile_last_name",
+          "name": "profile_last_name",
+          "label": "Last Name",
+          "field_type": "text",
+          "required": true,
+          "placeholder": "Last name",
+          "validation_pattern": null,
+          "validation_message": null,
+          "options": [],
+          "expected_value_type": "name",
+          "css_selector": "#profile_last_name",
+          "css_class": "taleo-input",
+          "help_text": null
+        },
+        {
+          "id": "profile_email",
+          "name": "profile_email",
+          "label": "Email Address",
+          "field_type": "email",
+          "required": true,
+          "placeholder": "you@example.com",
+          "validation_pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$",
+          "validation_message": "Enter a valid email address",
+          "options": [],
+          "expected_value_type": "email",
+          "css_selector": "#profile_email",
+          "css_class": "taleo-input",
+          "help_text": null
+        },
+        {
+          "id": "profile_phone",
+          "name": "profile_phone",
+          "label": "Mobile Phone",
+          "field_type": "tel",
+          "required": true,
+          "placeholder": "(555) 123-4567",
+          "validation_pattern": null,
+          "validation_message": null,
+          "options": [],
+          "expected_value_type": "phone",
+          "css_selector": "#profile_phone",
+          "css_class": "taleo-input",
+          "help_text": null
+        },
+        {
+          "id": "preferred_contact_method",
+          "name": "preferred_contact_method",
+          "label": "Preferred Contact Method",
+          "field_type": "select",
+          "required": false,
+          "placeholder": null,
+          "validation_pattern": null,
+          "validation_message": null,
+          "options": [
+            {"value": "email", "label": "Email", "is_default": false},
+            {"value": "phone", "label": "Phone", "is_default": false},
+            {"value": "text", "label": "Text message", "is_default": false}
+          ],
+          "expected_value_type": "contact_preference",
+          "css_selector": "#preferred_contact_method",
+          "css_class": "taleo-select",
+          "help_text": null
+        },
+        {
+          "id": "candidate_resume",
+          "name": "candidate_resume",
+          "label": "Attach Resume",
+          "field_type": "file",
+          "required": false,
+          "placeholder": null,
+          "validation_pattern": null,
+          "validation_message": null,
+          "options": [],
+          "expected_value_type": null,
+          "css_selector": "#candidate_resume",
+          "css_class": null,
+          "help_text": "Optional to keep template useful without a local upload fixture."
+        }
+      ],
+      "submit_button_text": "Save and Continue",
+      "submit_button_selector": null,
+      "back_button_text": null,
+      "back_button_selector": null,
+      "validation_required": true,
+      "css_theme": "taleo"
+    },
+    {
+      "page_id": "job_questions",
+      "title": "Job-Specific Questions",
+      "description": "Answer required prescreening questions for this position.",
+      "fields": [
+        {
+          "id": "customer_success_years",
+          "name": "customer_success_years",
+          "label": "How many years of customer success or account management experience do you have?",
+          "field_type": "number",
+          "required": true,
+          "placeholder": "5",
+          "validation_pattern": null,
+          "validation_message": null,
+          "options": [],
+          "expected_value_type": "years_experience",
+          "css_selector": "#customer_success_years",
+          "css_class": "taleo-input",
+          "help_text": null
+        },
+        {
+          "id": "crm_experience",
+          "name": "crm_experience",
+          "label": "Which CRM platforms have you used?",
+          "field_type": "textarea",
+          "required": true,
+          "placeholder": "Example: Salesforce, HubSpot, Gainsight",
+          "validation_pattern": null,
+          "validation_message": null,
+          "options": [],
+          "expected_value_type": "skills",
+          "css_selector": "#crm_experience",
+          "css_class": "taleo-textarea",
+          "help_text": null
+        },
+        {
+          "id": "managed_book_size",
+          "name": "managed_book_size",
+          "label": "Largest book of business managed",
+          "field_type": "select",
+          "required": false,
+          "placeholder": null,
+          "validation_pattern": null,
+          "validation_message": null,
+          "options": [
+            {"value": "under_1m", "label": "Under $1M", "is_default": false},
+            {"value": "1m_5m", "label": "$1M - $5M", "is_default": false},
+            {"value": "5m_20m", "label": "$5M - $20M", "is_default": false},
+            {"value": "over_20m", "label": "Over $20M", "is_default": false}
+          ],
+          "expected_value_type": "account_size",
+          "css_selector": "#managed_book_size",
+          "css_class": "taleo-select",
+          "help_text": null
+        },
+        {
+          "id": "travel_ok",
+          "name": "travel_ok",
+          "label": "Are you willing to travel up to 20% for customer meetings?",
+          "field_type": "radio",
+          "required": true,
+          "placeholder": null,
+          "validation_pattern": null,
+          "validation_message": null,
+          "options": [
+            {"value": "yes", "label": "Yes", "is_default": false},
+            {"value": "no", "label": "No", "is_default": false}
+          ],
+          "expected_value_type": "travel",
+          "css_selector": null,
+          "css_class": null,
+          "help_text": null
+        },
+        {
+          "id": "sponsorship_needed",
+          "name": "sponsorship_needed",
+          "label": "Will you require employer sponsorship now or in the future?",
+          "field_type": "radio",
+          "required": true,
+          "placeholder": null,
+          "validation_pattern": null,
+          "validation_message": null,
+          "options": [
+            {"value": "yes", "label": "Yes", "is_default": false},
+            {"value": "no", "label": "No", "is_default": false}
+          ],
+          "expected_value_type": "sponsorship",
+          "css_selector": null,
+          "css_class": null,
+          "help_text": null
+        }
+      ],
+      "submit_button_text": "Continue",
+      "submit_button_selector": null,
+      "back_button_text": "Previous",
+      "back_button_selector": null,
+      "validation_required": true,
+      "css_theme": "taleo"
+    },
+    {
+      "page_id": "disclosures",
+      "title": "Disclosures and Signature",
+      "description": "Complete the final acknowledgements.",
+      "fields": [
+        {
+          "id": "referral_source",
+          "name": "referral_source",
+          "label": "Referral Source",
+          "field_type": "select",
+          "required": false,
+          "placeholder": null,
+          "validation_pattern": null,
+          "validation_message": null,
+          "options": [
+            {"value": "company_website", "label": "Company Website", "is_default": false},
+            {"value": "linkedin", "label": "LinkedIn", "is_default": false},
+            {"value": "employee_referral", "label": "Employee Referral", "is_default": false},
+            {"value": "job_board", "label": "Job Board", "is_default": false},
+            {"value": "other", "label": "Other", "is_default": false}
+          ],
+          "expected_value_type": "source",
+          "css_selector": "#referral_source",
+          "css_class": "taleo-select",
+          "help_text": null
+        },
+        {
+          "id": "voluntary_race",
+          "name": "voluntary_race",
+          "label": "Race/Ethnicity",
+          "field_type": "select",
+          "required": false,
+          "placeholder": null,
+          "validation_pattern": null,
+          "validation_message": null,
+          "options": [
+            {"value": "decline", "label": "I decline to answer", "is_default": true},
+            {"value": "asian", "label": "Asian", "is_default": false},
+            {"value": "black", "label": "Black or African American", "is_default": false},
+            {"value": "hispanic", "label": "Hispanic or Latino", "is_default": false},
+            {"value": "white", "label": "White", "is_default": false},
+            {"value": "two_or_more", "label": "Two or more races", "is_default": false}
+          ],
+          "expected_value_type": "race_ethnicity",
+          "css_selector": "#voluntary_race",
+          "css_class": "taleo-select",
+          "help_text": null
+        },
+        {
+          "id": "signature_name",
+          "name": "signature_name",
+          "label": "Electronic Signature",
+          "field_type": "text",
+          "required": true,
+          "placeholder": "Type your full name",
+          "validation_pattern": null,
+          "validation_message": null,
+          "options": [],
+          "expected_value_type": "full_name",
+          "css_selector": "#signature_name",
+          "css_class": "taleo-input",
+          "help_text": null
+        },
+        {
+          "id": "signature_date",
+          "name": "signature_date",
+          "label": "Signature Date",
+          "field_type": "date",
+          "required": true,
+          "placeholder": null,
+          "validation_pattern": null,
+          "validation_message": null,
+          "options": [],
+          "expected_value_type": "date",
+          "css_selector": "#signature_date",
+          "css_class": "taleo-input",
+          "help_text": null
+        },
+        {
+          "id": "privacy_ack",
+          "name": "privacy_ack",
+          "label": "I acknowledge the privacy notice and consent to processing my application data.",
+          "field_type": "checkbox",
+          "required": true,
+          "placeholder": null,
+          "validation_pattern": null,
+          "validation_message": null,
+          "options": [],
+          "expected_value_type": "acknowledgement",
+          "css_selector": "#privacy_ack",
+          "css_class": null,
+          "help_text": null
+        }
+      ],
+      "submit_button_text": "Submit Application",
+      "submit_button_selector": null,
+      "back_button_text": "Previous",
+      "back_button_selector": null,
+      "validation_required": true,
+      "css_theme": "taleo"
+    }
+  ],
+  "start_url": "/",
+  "success_url": "/success",
+  "failure_url": "/error",
+  "metadata": {
+    "source": "taleo",
+    "scenario_notes": "Covers profile-first enterprise ATS behavior, required radio screening, electronic signature, date fields, and final privacy acknowledgement.",
+    "coverage": ["multi_page", "candidate_profile", "prescreen_questions", "electronic_signature", "privacy_acknowledgement"]
+  }
+}
