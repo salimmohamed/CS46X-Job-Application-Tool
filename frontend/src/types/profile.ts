@@ -36,9 +36,11 @@ export interface TechnicalExperience {
 export interface ApplicantInfo {
   first_name: string;
   last_name: string;
+  preferred_name?: string;
   email: string;
   phone: string;
-  address: string;
+  address_line_1: string;
+  address_line_2?: string;
   city: string;
   state: string;
   zip_code: string;
@@ -74,9 +76,11 @@ export const createEmptyProfile = (): ProfileData => ({
   applicant_info: {
     first_name: "",
     last_name: "",
+    preferred_name: "",
     email: "",
     phone: "",
-    address: "",
+    address_line_1: "",
+    address_line_2: "",
     city: "",
     state: "",
     zip_code: "",

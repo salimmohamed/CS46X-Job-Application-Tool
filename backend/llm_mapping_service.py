@@ -339,6 +339,9 @@ class FormInteractionEngine:
     def _value_from_rules(self, meta: Dict, profile: Dict) -> Optional[str]:
         label = (meta.get("label_text") or "").lower()
         name = (meta.get("name") or "").lower()
+        id_attr = (meta.get("id") or "").lower()
+        placeholder = (meta.get("placeholder") or "").lower()
+
         # Refresh label for any field with empty label (helps rules + LLM get question text)
         if not label:
             label = (self._refresh_label_if_empty(meta) or "").lower()
@@ -355,10 +358,14 @@ class FormInteractionEngine:
                 if q_id == kid:
                     label = " ".join(keywords)
                     break
-        if "first" in name and "name" in name or "first name" in label:
+        if "first" in name and "name" in name or "first name" in label or "first" in placeholder and "name" in placeholder or "first" in id_attr and "name" in id_attr:
             return (profile.get("first_name") or "").strip()
-        if "last" in name and "name" in name or "last name" in label:
+        if "last" in name and "name" in name or "last name" in label or "last" in placeholder and "name" in placeholder or "last" in id_attr and "name" in id_attr:
             return (profile.get("last_name") or "").strip()
+        # Preferred name
+        if ("preferred" in name and "name" in name) or ("known" in name and "as" in name) or "preferred name" in label or ("preferred" in placeholder and "name" in placeholder) or ("preferred" in id_attr and "name" in id_attr) or ("known" in id_attr and "as" in id_attr):
+            pname = (profile.get("preferred_name") or "").strip()
+            return pname if pname else None
         # Work eligibility (eligible to work in the US) -> Yes when work_authorization present
         eligible_key = "eligible" in label or "eligible" in name or "eligibility" in label or "eligibility" in name
         work_key = "work" in label or "work" in name or "authorization" in label or "authorization" in name
