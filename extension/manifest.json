@@ -3,7 +3,7 @@
   "name": "Job Application Tool",
   "version": "1.0.0",
   "description": "Track and manage job applications directly from your browser.",
-  "permissions": ["storage"],
+  "permissions": ["storage", "alarms"],
   "action": {
     "default_popup": "popup.html"
   },
