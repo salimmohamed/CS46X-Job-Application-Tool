@@ -15,7 +15,17 @@ function CandidateDetailsPage() {
   useEffect(() => {
     const stateData = location.state?.profileData as ProfileData | undefined;
     if (stateData) {
-      setParsedData(stateData);
+      const empty = createEmptyProfile();
+      const info = stateData.applicant_info;
+      setParsedData({
+        applicant_info: {
+          ...empty.applicant_info,
+          ...info,
+          work_experience: { ...empty.applicant_info.work_experience, ...info.work_experience },
+          technical_experience: { ...empty.applicant_info.technical_experience, ...info.technical_experience },
+          education: { ...empty.applicant_info.education, ...info.education },
+        },
+      });
       return;
     }
     getProfile()
