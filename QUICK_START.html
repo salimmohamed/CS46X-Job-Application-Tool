@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Job Application Tool - Quick Start Guide</title>
+  <style>
+    @media print { body { margin: 0.5in; } }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #1a1a2e; line-height: 1.55;
+      max-width: 800px; margin: 0 auto; padding: 1.5rem 2rem; background: #fff;
+    }
+    h1 { font-size: 1.4rem; color: #1a1a2e; margin-bottom: 0.75rem; }
+    h2 { font-size: 1.15rem; color: #4361ee; margin: 1.25rem 0 0.35rem 0; border-bottom: 1px solid #ccc; padding-bottom: 0.15rem; }
+    h3 { font-size: 1rem; color: #1a1a2e; margin: 1rem 0 0.25rem 0; }
+    p { margin-bottom: 0.45rem; font-size: 0.92rem; }
+    ol, ul { margin: 0.25rem 0 0.5rem 1.5rem; font-size: 0.92rem; }
+    li { margin-bottom: 0.2rem; }
+    code {
+      background: #f0f4ff; border: 1px solid #d0d9ff;
+      border-radius: 3px; padding: 0.05rem 0.3rem; font-size: 0.85rem;
+      font-family: 'Consolas', 'Courier New', monospace;
+    }
+    pre {
+      background: #f0f4ff; border: 1px solid #d0d9ff; border-radius: 6px;
+      padding: 0.75rem 1rem; margin: 0.5rem 0 0.75rem 0;
+      font-size: 0.82rem; font-family: 'Consolas', 'Courier New', monospace;
+      overflow-x: auto; white-space: pre;
+    }
+    .diagram {
+      border: 2px dashed #4361ee; border-radius: 6px; background: #f0f4ff;
+      padding: 0.75rem 1rem; margin: 0.5rem 0 0.75rem 0;
+      font-size: 0.8rem; font-family: 'Consolas', 'Courier New', monospace;
+      white-space: pre; overflow-x: auto;
+    }
+    .note {
+      background: #fff8e1; border-left: 3px solid #ffc107;
+      padding: 0.4rem 0.75rem; margin: 0.5rem 0; font-size: 0.88rem;
+      border-radius: 0 4px 4px 0;
+    }
+    table { width: 100%; border-collapse: collapse; margin: 0.5rem 0 0.75rem 0; font-size: 0.88rem; }
+    th { background: #4361ee; color: #fff; text-align: left; padding: 0.4rem 0.6rem; }
+    td { padding: 0.35rem 0.6rem; border-bottom: 1px solid #e0e0e0; vertical-align: top; }
+    tr:nth-child(even) td { background: #f7f9ff; }
+  </style>
+</head>
+<body>
+
+<h1>Job Application Tool - Quick Start Guide</h1>
+
+<p>Job hunting is repetitive. Every application asks for the same information: your name, address, work history, education, and you end up typing it out over and over. This tool fixes that. Upload your resume once, the app pulls out all your details using AI, and a Chrome extension handles filling in job application forms for you going forward.</p>
+
+<h2>Getting It Running</h2>
+
+<p>You'll need Python 3.12+, Node.js 18+, and an OpenAI API key before anything else.</p>
+
+<pre># clone the repo
+git clone https://github.com/salimmohamed/CS46X-Job-Application-Tool.git
+cd CS46X-Job-Application-Tool
+
+# backend
+cd backend
+cp .env.example .env          # open .env and paste in your OPENAI_API_KEY
+pip install -r requirements.txt
+
+# frontend
+cd ../frontend
+npm install
+
+# start everything from the project root
+python run_demo.py</pre>
+
+<p>That last command starts both servers and opens the app at <code>http://localhost:5173</code>.</p>
+
+<p>If you'd rather not deal with Python and Node, Docker works too:</p>
+
+<pre>OPENAI_API_KEY=your_key docker compose up -d --build
+# frontend at :8080, backend at :8000</pre>
+
+<h2>How It Works</h2>
+
+<div class="diagram">&#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;
+&#x2502;                          User                           &#x2502;
+&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x252C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x252C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;
+           &#x2502; uploads resume           &#x2502; visits job site
+           &#x25BC;                          &#x25BC;
+&#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;     &#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;
+&#x2502;   React Frontend      &#x2502;     &#x2502;      Chrome Extension         &#x2502;
+&#x2502;   (port 5173)         &#x2502;     &#x2502;   (Manifest v3 / background  &#x2502;
+&#x2502;                       &#x2502;     &#x2502;    service worker)           &#x2502;
+&#x2502;  Upload Page          &#x2502;     &#x2502;                              &#x2502;
+&#x2502;  Profile Editor       &#x2502;     &#x2502;  reads saved profile and     &#x2502;
+&#x2502;  Apply Page           &#x2502;     &#x2502;  autofills the form          &#x2502;
+&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x252C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;     &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;
+         &#x2502; REST API
+         &#x25BC;
+&#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;
+&#x2502;   FastAPI Backend     &#x2502;
+&#x2502;   (port 8000)         &#x2502;
+&#x2502;                       &#x2502;
+&#x2502;  resume parsing    &#x2500;&#x2500;&#x2500;&#x2524;&#x2500;&#x2500;&#x2500;&#x2500; OpenAI (GPT-4o-mini)
+&#x2502;  profile storage      &#x2502;
+&#x2502;  form field mapping   &#x2502;
+&#x2502;  encryption           &#x2502;
+&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</div>
+
+<h2>Features</h2>
+
+<h3>Upload &amp; Parse</h3>
+<p>Go to the Upload Page and either drop in a resume (PDF, DOC, or DOCX) or hit <strong>"Try Demo with Sample Data"</strong> if you just want to poke around. Click <strong>"Upload &amp; Continue"</strong> and the backend sends it through OpenAI, which pulls out your personal info, address, education, work history, skills, and professional details.</p>
+<p>No API key? Use the demo button. It loads a pre-filled sample so you can see how everything looks without needing the backend running.</p>
+
+<h3>Profile Editor</h3>
+<p>After the upload, you land on the Candidate Details form. Fields the parser couldn't find are highlighted in <strong style="background:#fff3cd; padding:0 0.2rem; border:1px solid #ffc107; border-radius:2px;">yellow</strong> and need your attention. White fields were filled in automatically but you can still edit them. Once everything looks right, hit <strong>"Save Profile"</strong> at the bottom. Green banner means it worked; red means something went wrong.</p>
+<p>The form covers six sections: Personal Info, Address, Education, Work Experience, Skills, and Professional Details.</p>
+
+<h3>Chrome Extension (Autofill)</h3>
+<p>Once your profile is saved, the extension takes over on actual job sites. It works with Workday, Greenhouse, Lever, Taleo, and a few others. To load it:</p>
+<ol>
+  <li>Run <code>npm run build</code> inside <code>frontend/</code> to generate the files the extension needs.</li>
+  <li>Open Chrome, go to <code>chrome://extensions</code>, and turn on <strong>Developer mode</strong> in the top-right corner.</li>
+  <li>Click <strong>"Load unpacked"</strong> and point it at the <code>extension</code> folder in the project root.</li>
+  <li>The "Job Application Tool" extension shows up and starts running automatically.</li>
+</ol>
+<p>Your profile stays loaded even if Chrome puts the extension to sleep in the background.</p>
+
+<h2>User Flow</h2>
+
+<div class="diagram">Upload resume (or use the demo)
+         |
+         v
+AI parses resume ─────────────────► profile.json saved
+         |                                    |
+         v                                    |
+Review form, fill yellow fields               |
+         |                                    |
+         v                                    |
+Save Profile &lt;────────────────────────────────┘
+         |
+         v
+Install Chrome extension
+         |
+         v
+Visit a job application page
+         |
+         v
+Extension fills in the form
+         |
+         v
+Submit and move on</div>
+
+<h2>If Something Breaks</h2>
+
+<table>
+  <tr>
+    <th>Problem</th>
+    <th>Fix</th>
+  </tr>
+  <tr>
+    <td><strong>"Upload failed"</strong></td>
+    <td>The backend isn't running. Start it with <code>uvicorn resume_parser:app --reload</code> from <code>/backend</code>, or use the demo button.</td>
+  </tr>
+  <tr>
+    <td><strong>Every field is yellow</strong></td>
+    <td>No profile data got loaded. Go back to the Upload Page and try again, or use the demo.</td>
+  </tr>
+  <tr>
+    <td><strong>Extension not showing in Chrome</strong></td>
+    <td>Check that Developer mode is on and that you selected the <code>extension</code> folder (the one with <code>manifest.json</code> in it, not <code>frontend/dist</code>).</td>
+  </tr>
+  <tr>
+    <td><strong>OpenAI error on upload</strong></td>
+    <td>Your API key is missing or wrong. Open <code>backend/.env</code> and check <code>OPENAI_API_KEY</code>.</td>
+  </tr>
+</table>
+
+</body>
+</html>
