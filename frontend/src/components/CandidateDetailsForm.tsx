@@ -24,7 +24,7 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
 
     // Check top-level fields
     const topLevelFields = [
-      'first_name', 'last_name', 'email', 'phone', 'address', 'city', 'state',
+      'first_name', 'last_name','preferred_name', 'email', 'phone', 'address_line_1', "address_line_2", 'city', 'state',
       'zip_code', 'country', 'linkedin_url', 'portfolio_url', 'years_of_experience',
       'education_level', 'college_name', 'salary_expectation', 'willing_to_relocate',
       'availability_date', 'work_authorization', 'gender', 'race_ethnicity', 'race',
@@ -123,6 +123,15 @@ function CandidateDetailsForm({ initialData, onSubmit }: CandidateDetailsFormPro
               required
             />
           </div>
+          <div className={`form-group ${isUnknown('preferred_name') ? 'unknown' : ''}`}>
+            <label htmlFor="preferred_name">Preferred Name *</label>
+            <input
+              id="preferred_name"
+              type="text"
+              value={v(info.preferred_name)}
+              onChange={(e) => handleChange('preferred_name', e.target.value)}
+            />
+          </div>
           <div className={`form-group ${isUnknown('email') ? 'unknown' : ''}`}>
             <label htmlFor="email">Email *</label>
             <input
@@ -149,13 +158,22 @@ value={v(info.phone)}
       <section className="form-section">
         <h2>Address</h2>
         <div className="form-grid">
-          <div className={`form-group full-width ${isUnknown('address') ? 'unknown' : ''}`}>
-            <label htmlFor="address">Street Address</label>
+          <div className={`form-group full-width ${isUnknown('address_line_1') ? 'unknown' : ''}`}>
+            <label htmlFor="address_line_1">Street Address</label>
             <input
-              id="address"
+              id="address_line_1"
               type="text"
-value={v(info.address)}
-            onChange={(e) => handleChange('address', e.target.value)}
+value={v(info.address_line_1)}
+              onChange={(e) => handleChange('address_line_1', e.target.value)}
+            />
+          </div>
+          <div className={`form-group full-width ${isUnknown('address_line_2') ? 'unknown' : ''}`}>
+            <label htmlFor="address_line_2">Street Address Line 2</label>
+            <input
+              id="address_line_2"
+              type="text"
+value={v(info.address_line_2)}
+              onChange={(e) => handleChange('address_line_2', e.target.value)}
             />
           </div>
           <div className={`form-group ${isUnknown('city') ? 'unknown' : ''}`}>

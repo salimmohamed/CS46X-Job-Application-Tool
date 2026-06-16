@@ -8,10 +8,11 @@ class HeuristicMatcher:
         self.standard_fields = {
             "first_name": ["first name", "given name", "fname", "first", "firstname"],
             "last_name": ["last name", "surname", "family name", "lname", "lastname"],
+            "preferred_name": ["preferred name", "known as", "also known as"],
             "email": ["email", "e-mail address", "email address", "emailaddress"],
             "phone": ["phone", "mobile", "cell", "contact number", "phonenumber"],
-            "address_line_1": ["address line 1", "street address", "address 1", "mailing address", "address"],
-            "address_line_2": ["address line 2", "address 2", "apt", "suite", "unit", "ste", "apartment"],
+            "address_line_1": ["address line 1", "street address", "address 1", "mailing address"],
+            "address_line_2": ["address line 2", "address 2", "apt", "suite", "unit", "ste", "apartment", "building", "flat", "room", "floor", "bldg"],
             "resume": ["resume", "cv", "curriculum vitae", "upload resume"]
         }
 
@@ -58,6 +59,9 @@ class HeuristicMatcher:
             if any(x in search_blob for x in ["address 2", "apt", "suite", "unit", "ste", "apartment"]):
                 # overrule previous guess and make it actually address 2
                 best_field = "address_line_2"
+            # if address line 3 or higher, don't match
+            if any(x in search_blob for x in ["line 3", "line 4", "line 5"]):
+                best_field = "unknown"
 
         # only return the key if confidence threshold is high enough
         return best_field if highest_score > 0.6 else "unknown"

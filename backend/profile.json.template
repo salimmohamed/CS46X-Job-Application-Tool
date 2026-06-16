@@ -2,6 +2,7 @@
   "applicant_info": {
     "first_name": "",
     "last_name": "",
+    "preferred_name": "",
     "email": "",
     "phone": "",
     "address_line_1": "",
